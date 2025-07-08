@@ -1,0 +1,195 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next",
+    "retry": "Retry",
+    "success": "Success",
+    "failed": "Failed",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Info"
+  },
+  "nav": {
+    "home": "Home",
+    "wish": "Wish",
+    "calculate": "Fortune",
+    "merit": "Merit",
+    "store": "Store",
+    "leaderboard": "Leaderboard"
+  },
+  "initial": {
+    "title": "Rich Temple",
+    "subtitle": "Web3 Fortune Platform",
+    "description": "Blending traditional culture with modern blockchain technology",
+    "enterPrompt": "Click to Enter",
+    "loadingVideo": "Loading animation..."
+  },
+  "input": {
+    "title": "Wish Pool",
+    "subtitle": "Make a sincere wish, may it come true",
+    "placeholder": "Please enter your wish...",
+    "maxLength": "Max 200 characters",
+    "submitWish": "Cast into Wish Pool",
+    "wishRequired": "Please enter your wish"
+  },
+  "login": {
+    "title": "Wallet Connection",
+    "subtitle": "Connect your Web3 wallet",
+    "selectWallet": "Select Wallet",
+    "metamask": "MetaMask",
+    "walletConnect": "WalletConnect",
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "failed": "Connection failed",
+    "retry": "Reconnect",
+    "installMetamask": "Please install MetaMask",
+    "walletAddress": "Wallet Address"
+  },
+  "calculate": {
+    "title": "Liu Ren Fortune Telling",
+    "subtitle": "Ancient divination to predict fortune",
+    "instruction": "Please enter three numbers (1-99)",
+    "number1": "First number",
+    "number2": "Second number",
+    "number3": "Third number",
+    "startDivination": "Start Fortune Telling",
+    "calculating": "Calculating...",
+    "placeholder": "Enter number 1-99",
+    "invalidNumber": "Please enter valid number (1-99)"
+  },
+  "result": {
+    "title": "Fortune Result",
+    "subtitle": "The six gods have decided, offer incense devoutly, divine protection",
+    "fortuneResult": "Divination Result",
+    "incenseOffering": "Incense Offering",
+    "incenseAmount": "Incense Amount",
+    "selectCurrency": "Select Currency",
+    "totalAmount": "Total Amount",
+    "proceedToPayment": "Proceed to Payment",
+    "amountRequired": "Please enter incense amount",
+    "currencyRequired": "Please select currency"
+  },
+  "payment": {
+    "title": "Incense Payment",
+    "subtitle": "Devout offering, boundless merit",
+    "paymentDetails": "Payment Details",
+    "amount": "Amount",
+    "currency": "Currency",
+    "fee": "Fee",
+    "total": "Total",
+    "confirmPayment": "Confirm Payment",
+    "processing": "Processing...",
+    "paymentSuccess": "Payment successful",
+    "paymentFailed": "Payment failed",
+    "insufficientBalance": "Insufficient balance"
+  },
+  "worship": {
+    "title": "Devout Worship",
+    "subtitle": "Sincerity brings divine protection",
+    "worshipInProgress": "Worship ceremony in progress...",
+    "worshipComplete": "Worship completed",
+    "meritEarned": "Merit +{merit}",
+    "continueToMerit": "View Merit"
+  },
+  "merit": {
+    "title": "Merit Accumulation",
+    "subtitle": "Accumulate virtue, boundless blessings",
+    "meritPoints": "Merit Points",
+    "level": "Level",
+    "nextLevel": "Next Level",
+    "progress": "Progress",
+    "dailyFortune": "Daily Fortune",
+    "auspiciousDay": "Auspicious Day",
+    "suitable": "Suitable",
+    "unsuitable": "Unsuitable",
+    "luckyReminder": "Lucky Reminder",
+    "shareButton": "Share Blessing",
+    "storeButton": "Sacred Store",
+    "levels": {
+      "beginner": "Beginner",
+      "devotee": "Devotee",
+      "believer": "Believer",
+      "enlightened": "Enlightened",
+      "sage": "Sage"
+    }
+  },
+  "share": {
+    "title": "Share Blessing",
+    "subtitle": "Share happiness, double the blessings",
+    "shareToTwitter": "Share to Twitter",
+    "shareTemplate": "I earned {merit} merit points at Rich Temple! Come and pray with us! 🙏 #RichTemple #Web3Fortune #Merit",
+    "shareSuccess": "Share successful",
+    "shareReward": "Share reward +{reward} merit points"
+  },
+  "store": {
+    "title": "Sacred Store",
+    "subtitle": "Sacred artifacts for protection and peace",
+    "categories": {
+      "physical": "Physical Items",
+      "virtual": "Virtual Items",
+      "merit": "Merit Boost"
+    },
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "cart": "Cart",
+    "checkout": "Checkout",
+    "price": "Price",
+    "description": "Description",
+    "effect": "Effect"
+  },
+  "leaderboard": {
+    "title": "Merit Leaderboard",
+    "subtitle": "Boundless merit, eternal fame",
+    "rank": "Rank",
+    "username": "User",
+    "merit": "Merit Points",
+    "level": "Level",
+    "myRank": "My Rank",
+    "topUsers": "Top Merit Users",
+    "recentActivity": "Recent Activity"
+  },
+  "airdrop": {
+    "title": "Lucky Airdrop",
+    "subtitle": "Fortune from heaven, continuous luck",
+    "eligibleAmount": "Eligible Amount",
+    "basedOnMerit": "Based on merit points",
+    "claimAirdrop": "Claim Airdrop",
+    "claiming": "Claiming...",
+    "claimSuccess": "Claim successful",
+    "claimFailed": "Claim failed",
+    "alreadyClaimed": "Already claimed today",
+    "nextClaimTime": "Next claim time",
+    "airdropHistory": "Airdrop History"
+  },
+  "currencies": {
+    "SOL": "Solana",
+    "USDT": "Tether",
+    "BTC": "Bitcoin",
+    "ETH": "Ethereum",
+    "BNB": "Binance Coin"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidFormat": "Invalid format",
+    "tooLong": "Content too long",
+    "tooShort": "Content too short",
+    "numberRange": "Number must be between {min}-{max}"
+  },
+  "errors": {
+    "networkError": "Network error, please check your connection",
+    "serverError": "Server error, please try again later",
+    "walletError": "Wallet error",
+    "transactionFailed": "Transaction failed",
+    "insufficientFunds": "Insufficient funds"
+  },
+  "tips": {
+    "saveWallet": "Please keep your wallet information safe",
+    "confirmTransaction": "Please confirm the transaction in your wallet",
+    "patientWait": "Please wait patiently for transaction confirmation",
+    "checkNetwork": "Please check your network settings"
+  }
+} 

@@ -1,0 +1,195 @@
+{
+  "common": {
+    "loading": "加载中...",
+    "confirm": "确认",
+    "cancel": "取消",
+    "submit": "提交",
+    "back": "返回",
+    "next": "下一步",
+    "retry": "重试",
+    "success": "成功",
+    "failed": "失败",
+    "error": "错误",
+    "warning": "警告",
+    "info": "信息"
+  },
+  "nav": {
+    "home": "首页",
+    "wish": "许愿",
+    "calculate": "算命",
+    "merit": "功德",
+    "store": "商城",
+    "leaderboard": "排行榜"
+  },
+  "initial": {
+    "title": "财神庙",
+    "subtitle": "Web3祈福平台",
+    "description": "融合传统文化与现代区块链技术",
+    "enterPrompt": "点击进入",
+    "loadingVideo": "正在加载动画..."
+  },
+  "input": {
+    "title": "许愿池",
+    "subtitle": "诚心许愿，心想事成",
+    "placeholder": "请输入您的心愿...",
+    "maxLength": "最多200字",
+    "submitWish": "投入许愿池",
+    "wishRequired": "请输入您的心愿"
+  },
+  "login": {
+    "title": "钱包连接",
+    "subtitle": "连接您的Web3钱包",
+    "selectWallet": "选择钱包",
+    "metamask": "MetaMask",
+    "walletConnect": "WalletConnect",
+    "connecting": "连接中...",
+    "connected": "已连接",
+    "failed": "连接失败",
+    "retry": "重新连接",
+    "installMetamask": "请安装MetaMask",
+    "walletAddress": "钱包地址"
+  },
+  "calculate": {
+    "title": "小六壬神算",
+    "subtitle": "古法神算，预知吉凶",
+    "instruction": "请输入三个数字（1-99）",
+    "number1": "第一个数字",
+    "number2": "第二个数字",
+    "number3": "第三个数字",
+    "startDivination": "开始神算",
+    "calculating": "神算中...",
+    "placeholder": "请输入1-99的数字",
+    "invalidNumber": "请输入有效的数字（1-99）"
+  },
+  "result": {
+    "title": "神算结果",
+    "subtitle": "六神已定，虔诚上香，神明护佑",
+    "fortuneResult": "占卜结果",
+    "incenseOffering": "香火奉献",
+    "incenseAmount": "香火数量",
+    "selectCurrency": "选择币种",
+    "totalAmount": "总金额",
+    "proceedToPayment": "前往支付",
+    "amountRequired": "请输入香火数量",
+    "currencyRequired": "请选择币种"
+  },
+  "payment": {
+    "title": "香火支付",
+    "subtitle": "虔诚奉献，功德无量",
+    "paymentDetails": "支付详情",
+    "amount": "金额",
+    "currency": "币种",
+    "fee": "手续费",
+    "total": "总计",
+    "confirmPayment": "确认支付",
+    "processing": "处理中...",
+    "paymentSuccess": "支付成功",
+    "paymentFailed": "支付失败",
+    "insufficientBalance": "余额不足"
+  },
+  "worship": {
+    "title": "虔诚上香",
+    "subtitle": "心诚则灵，神明护佑",
+    "worshipInProgress": "上香仪式进行中...",
+    "worshipComplete": "上香完成",
+    "meritEarned": "功德 +{merit}",
+    "continueToMerit": "查看功德"
+  },
+  "merit": {
+    "title": "功德积累",
+    "subtitle": "积善成德，福报无量",
+    "meritPoints": "功德分",
+    "level": "等级",
+    "nextLevel": "下一级",
+    "progress": "进度",
+    "dailyFortune": "每日运势",
+    "auspiciousDay": "黄道吉日",
+    "suitable": "宜",
+    "unsuitable": "忌",
+    "luckyReminder": "好运提醒",
+    "shareButton": "分享福报",
+    "storeButton": "法物商城",
+    "levels": {
+      "beginner": "初学者",
+      "devotee": "虔诚者",
+      "believer": "信奉者",
+      "enlightened": "开悟者",
+      "sage": "圣贤"
+    }
+  },
+  "share": {
+    "title": "分享福报",
+    "subtitle": "分享快乐，福报加倍",
+    "shareToTwitter": "分享到Twitter",
+    "shareTemplate": "我在财神庙获得了{merit}功德分！一起来祈福吧！🙏 #财神庙 #Web3祈福 #功德积累",
+    "shareSuccess": "分享成功",
+    "shareReward": "分享奖励 +{reward} 功德分"
+  },
+  "store": {
+    "title": "法物商城",
+    "subtitle": "神圣法物，护佑平安",
+    "categories": {
+      "physical": "实体法物",
+      "virtual": "虚拟法物",
+      "merit": "功德增值"
+    },
+    "addToCart": "加入购物车",
+    "buyNow": "立即购买",
+    "cart": "购物车",
+    "checkout": "结算",
+    "price": "价格",
+    "description": "描述",
+    "effect": "效果"
+  },
+  "leaderboard": {
+    "title": "功德排行榜",
+    "subtitle": "功德无量，名留青史",
+    "rank": "排名",
+    "username": "用户",
+    "merit": "功德分",
+    "level": "等级",
+    "myRank": "我的排名",
+    "topUsers": "功德榜首",
+    "recentActivity": "最近活动"
+  },
+  "airdrop": {
+    "title": "空投好运",
+    "subtitle": "福从天降，好运连连",
+    "eligibleAmount": "可领取数量",
+    "basedOnMerit": "基于功德分计算",
+    "claimAirdrop": "领取空投",
+    "claiming": "领取中...",
+    "claimSuccess": "领取成功",
+    "claimFailed": "领取失败",
+    "alreadyClaimed": "今日已领取",
+    "nextClaimTime": "下次领取时间",
+    "airdropHistory": "空投历史"
+  },
+  "currencies": {
+    "SOL": "Solana",
+    "USDT": "Tether",
+    "BTC": "Bitcoin",
+    "ETH": "Ethereum",
+    "BNB": "Binance Coin"
+  },
+  "validation": {
+    "required": "此项为必填项",
+    "invalidFormat": "格式不正确",
+    "tooLong": "内容过长",
+    "tooShort": "内容过短",
+    "numberRange": "数字必须在{min}-{max}之间"
+  },
+  "errors": {
+    "networkError": "网络错误，请检查网络连接",
+    "serverError": "服务器错误，请稍后重试",
+    "walletError": "钱包错误",
+    "transactionFailed": "交易失败",
+    "insufficientFunds": "资金不足"
+  },
+  "tips": {
+    "saveWallet": "请妥善保管您的钱包信息",
+    "confirmTransaction": "请在钱包中确认交易",
+    "patientWait": "请耐心等待交易确认",
+    "checkNetwork": "请检查网络设置"
+  }
+} 
