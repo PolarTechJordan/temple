@@ -347,6 +347,7 @@
 import { useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import { computed } from 'vue'
+import deepSeekService from '@/services/deepseekService'
 
 export default {
   name: 'MeritPage',
@@ -381,9 +382,11 @@ export default {
       selectedIncense: null,
       quickFeedback: '',
       todayDate: '',
-      lunarDate: '甲子年 丙寅月 戊戌日',
+      lunarDate: '',
       overallRating: 4,
       todayHighlight: '今日财运亨通，适合投资理财，感情运势上佳。',
+      dailyFortuneData: null,
+      loadingFortune: false,
       shareCount: 0,
       navItems: [
         {
@@ -542,8 +545,9 @@ export default {
       return levelNames[this.currentLevelInfo.name] || '未知等级'
     }
   },
-  mounted() {
+  async mounted() {
     this.updateTodayDate()
+    await this.loadDailyFortune()
   },
   methods: {
     selectNav(navId) {
@@ -570,6 +574,53 @@ export default {
       const month = String(today.getMonth() + 1).padStart(2, '0')
       const date = String(today.getDate()).padStart(2, '0')
       this.todayDate = `${year}年${month}月${date}日`
+      
+      // 获取农历日期
+      this.lunarDate = deepSeekService.getLunarDate(today)
+    },
+
+    async loadDailyFortune() {
+      // 检查是否已有今日运势数据
+      const today = new Date().toISOString().split('T')[0]
+      const existingFortune = this.appStore.dailyFortune
+      
+      if (existingFortune && existingFortune.date === today) {
+        // 已有今日运势，直接使用
+        this.dailyFortuneData = existingFortune
+        this.updateFortuneDisplay()
+        return
+      }
+      
+      // 需要生成新的运势
+      this.loadingFortune = true
+      
+      try {
+        const fortuneData = await deepSeekService.generateDailyFortune(today, this.lunarDate)
+        this.dailyFortuneData = fortuneData
+        
+        // 保存到store
+        this.appStore.setDailyFortune(fortuneData)
+        
+        this.updateFortuneDisplay()
+        console.log('每日运势已生成:', fortuneData)
+        
+      } catch (error) {
+        console.error('生成每日运势失败:', error)
+        
+        // 使用默认运势
+        this.dailyFortuneData = deepSeekService.generateDefaultDailyFortune(today, this.lunarDate)
+        this.updateFortuneDisplay()
+        
+      } finally {
+        this.loadingFortune = false
+      }
+    },
+
+    updateFortuneDisplay() {
+      if (this.dailyFortuneData) {
+        this.overallRating = this.dailyFortuneData.overall_rating || 4
+        this.todayHighlight = this.dailyFortuneData.overall_summary || '今日运势平稳，适合积极行动。'
+      }
     },
     
     getRatingText(rating) {

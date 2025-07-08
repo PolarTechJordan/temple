@@ -67,6 +67,7 @@
 <script>
 import { useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
+import deepSeekService from '@/services/deepseekService'
 
 export default {
   name: 'CalculatePage',
@@ -111,28 +112,42 @@ export default {
       this.calculating = true
       
       try {
-        // 模拟AI计算过程
-        await new Promise(resolve => setTimeout(resolve, 3000))
+        // 获取用户的愿望
+        const userWish = this.appStore.userWish || '祈求好运和财富'
         
-        // 生成模拟的算命结果
-        const mockResult = {
+        // 调用DeepSeek AI服务生成算命结果
+        const aiResult = await deepSeekService.generateFortuneResult(userWish, this.numbers)
+        
+        const fortuneResult = {
           numbers: [...this.numbers],
-          result: this.generateMockFortune(),
-          timestamp: new Date().toISOString()
+          wish: userWish,
+          result: aiResult.result,
+          timestamp: aiResult.timestamp,
+          aiGenerated: aiResult.success
         }
         
         // 保存结果到store
-        this.appStore.saveFortuneResult(mockResult)
+        this.appStore.saveFortuneResult(fortuneResult)
         
-        // 这里应该调用DeepSeek API
-        console.log('计算数字:', this.numbers)
+        console.log('AI算命结果:', fortuneResult)
         
         // 跳转到结果页面
         this.navigateTo('/result')
         
       } catch (error) {
         console.error('算命失败:', error)
-        alert('算命失败，请重试')
+        
+        // 如果AI失败，使用默认结果
+        const fallbackResult = {
+          numbers: [...this.numbers],
+          result: this.generateMockFortune(),
+          timestamp: new Date().toISOString(),
+          aiGenerated: false
+        }
+        
+        this.appStore.saveFortuneResult(fallbackResult)
+        this.navigateTo('/result')
+        
       } finally {
         this.calculating = false
       }
@@ -141,22 +156,31 @@ export default {
     generateMockFortune() {
       const fortunes = [
         {
-          title: '大吉',
-          description: '今日运势极佳，事业顺利，财源广进。',
-          advice: '宜：出行、投资、求财\n忌：懈怠、争吵',
-          luck: 95
+          title: '大安卦象',
+          description: '根据您提供的数字，神明指示：前路光明，贵人相助，但需谨慎行事，避免冲动。近期财运亨通，事业有成，感情和睦。',
+          advice: '建议多行善事，积累功德，虔诚上香获得神明护佑。宜：投资理财、拜访朋友；忌：冲动决策、争执。',
+          luck_score: 85,
+          wealth_trend: '上升',
+          career_trend: '稳定',
+          health_trend: '良好'
         },
         {
-          title: '中吉',
-          description: '运势平稳上升，贵人相助，心想事成。',
-          advice: '宜：学习、交友、合作\n忌：冲动、决策',
-          luck: 80
+          title: '速喜卦象',
+          description: '卦象显示快速的好运即将来临，财富机会在前方等待，但需要把握时机，行动迅速。事业方面会有突破性进展。',
+          advice: '建议提前做好规划，当机会来临时果断行动。宜：主动出击、寻求合作；忌：犹豫不决、错失良机。',
+          luck_score: 90,
+          wealth_trend: '快速上升',
+          career_trend: '突破',
+          health_trend: '优秀'
         },
         {
-          title: '小吉',
-          description: '运势一般，需要耐心等待时机。',
-          advice: '宜：静心、储蓄、养生\n忌：冒险、借贷',
-          luck: 65
+          title: '小吉卦象',
+          description: '运势平稳向好，虽无大起大落，但稳中有进。需要耐心积累，持续努力，终将获得满意的回报。',
+          advice: '建议保持耐心，稳扎稳打。宜：学习进修、储蓄理财；忌：急于求成、冒险投机。',
+          luck_score: 75,
+          wealth_trend: '稳步上升',
+          career_trend: '平稳',
+          health_trend: '良好'
         }
       ]
       

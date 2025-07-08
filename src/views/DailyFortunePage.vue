@@ -101,10 +101,18 @@
           </div>
         </div>
 
+        <!-- 加载状态 -->
+        <div v-if="loading" class="loading-state">
+          <div class="spinner"></div>
+          <p>正在生成每日运势...</p>
+        </div>
+
         <!-- 返回按钮 -->
         <div class="action-buttons">
           <button @click="goBack" class="back-btn">返回</button>
-          <button @click="refreshFortune" class="refresh-btn">刷新运势</button>
+          <button @click="refreshFortune" :disabled="loading" class="refresh-btn">
+            {{ loading ? '生成中...' : '刷新运势' }}
+          </button>
         </div>
       </div>
     </div>
@@ -113,11 +121,14 @@
 
 <script>
 import { useRouter } from 'vue-router'
+import { useAppStore } from '@/stores/app'
+import deepSeekService from '@/services/deepseekService'
 
 export default {
   name: 'DailyFortunePage',
   setup() {
     const router = useRouter()
+    const appStore = useAppStore()
     
     // 语言感知的导航函数
     const navigateTo = (path) => {
@@ -129,17 +140,18 @@ export default {
     
     return {
       router,
+      appStore,
       navigateTo
     }
   },
   data() {
     return {
       currentDate: '',
-      lunarDate: '甲子年 丙寅月 戊戌日',
+      lunarDate: '',
       auspiciousLevel: 'good',
       auspiciousText: '宜',
-      suitableActivities: ['祈福', '上香', '投资', '签约', '旅行', '会友'],
-      unsuitableActivities: ['争执', '冲动消费', '重大决策', '搬家'],
+      suitableActivities: [],
+      unsuitableActivities: [],
       fortuneRatings: {
         wealth: 4,
         career: 3,
@@ -152,15 +164,17 @@ export default {
         love: '感情运势极佳，单身者有望遇到心仪对象，恋人关系和睦。',
         health: '身体状况良好，适合户外运动，注意饮食均衡。'
       },
-      luckyColor: '#FF6B6B',
+      luckyColor: '金色',
       luckyNumber: '8',
       luckyDirection: '东南',
-      luckyTime: '09:00-11:00'
+      luckyTime: '09:00-11:00',
+      dailyFortuneData: null,
+      loading: false
     }
   },
-  mounted() {
+  async mounted() {
     this.updateCurrentDate()
-    this.generateDailyFortune()
+    await this.loadDailyFortune()
   },
   methods: {
     updateCurrentDate() {
@@ -169,10 +183,95 @@ export default {
       const month = String(today.getMonth() + 1).padStart(2, '0')
       const date = String(today.getDate()).padStart(2, '0')
       this.currentDate = `${year}年${month}月${date}日`
+      
+      // 获取农历日期
+      this.lunarDate = deepSeekService.getLunarDate(today)
+    },
+
+    async loadDailyFortune() {
+      // 检查store中是否有今日运势数据
+      const today = new Date().toISOString().split('T')[0]
+      const existingFortune = this.appStore.dailyFortune
+      
+      if (existingFortune && existingFortune.date === today) {
+        // 已有今日运势，直接使用
+        this.dailyFortuneData = existingFortune
+        this.updateFortuneDisplay()
+        return
+      }
+      
+      // 需要生成新的运势
+      this.loading = true
+      
+      try {
+        const fortuneData = await deepSeekService.generateDailyFortune(today, this.lunarDate)
+        this.dailyFortuneData = fortuneData
+        
+        // 保存到store
+        this.appStore.setDailyFortune(fortuneData)
+        
+        this.updateFortuneDisplay()
+        console.log('每日运势已加载:', fortuneData)
+        
+      } catch (error) {
+        console.error('加载每日运势失败:', error)
+        
+        // 使用默认运势
+        this.dailyFortuneData = deepSeekService.generateDefaultDailyFortune(today, this.lunarDate)
+        this.updateFortuneDisplay()
+        
+      } finally {
+        this.loading = false
+      }
+    },
+
+    updateFortuneDisplay() {
+      if (!this.dailyFortuneData) return
+      
+      const data = this.dailyFortuneData
+      
+      // 更新运势评级
+      this.fortuneRatings = {
+        wealth: data.wealth?.rating || 4,
+        career: data.career?.rating || 3,
+        love: data.love?.rating || 5,
+        health: data.health?.rating || 4
+      }
+      
+      // 更新运势文本
+      this.fortuneTexts = {
+        wealth: data.wealth?.description || '财运平稳，适合稳健投资。',
+        career: data.career?.description || '工作运势良好，适合积极行动。',
+        love: data.love?.description || '感情运势不错，单身者有机会遇到心仪对象。',
+        health: data.health?.description || '身体状况良好，注意适当休息。'
+      }
+      
+      // 更新幸运元素
+      this.luckyColor = data.lucky_color || '金色'
+      this.luckyNumber = (data.lucky_numbers && data.lucky_numbers.length > 0) 
+        ? data.lucky_numbers.join(', ') 
+        : '8'
+      
+      // 更新宜忌事项
+      this.suitableActivities = data.suitable_activities || ['祈福上香', '学习进修', '拜访朋友']
+      this.unsuitableActivities = data.avoid_activities || ['冲动消费', '争执', '熬夜']
+      
+      // 设置整体吉凶程度
+      const overallRating = data.overall_rating || 4
+      if (overallRating >= 4) {
+        this.auspiciousLevel = 'good'
+        this.auspiciousText = '吉'
+      } else if (overallRating >= 3) {
+        this.auspiciousLevel = 'neutral'
+        this.auspiciousText = '平'
+      } else {
+        this.auspiciousLevel = 'bad'
+        this.auspiciousText = '凶'
+      }
     },
     
     generateDailyFortune() {
-      // 基于今天的日期生成运势
+      // 保留原始的随机生成方法作为备用
       const today = new Date()
       const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate()
       const random = (seed * 9301 + 49297) % 233280 / 233280
@@ -186,7 +285,7 @@ export default {
       }
       
       // 随机选择幸运元素
-      const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD']
+      const colors = ['金色', '红色', '紫色', '蓝色', '绿色', '银色']
       const numbers = ['1', '3', '6', '8', '9', '18', '28', '38']
       const directions = ['东', '南', '西', '北', '东南', '西南', '东北', '西北']
       const times = ['06:00-08:00', '09:00-11:00', '14:00-16:00', '19:00-21:00']
@@ -210,12 +309,36 @@ export default {
       }
     },
     
-    refreshFortune() {
-      this.generateDailyFortune()
+    async refreshFortune() {
+      // 清除缓存并重新生成运势
+      this.loading = true
+      
+      try {
+        const today = new Date().toISOString().split('T')[0]
+        
+        // 清除DeepSeek服务的缓存
+        deepSeekService.clearCache()
+        
+        // 重新生成运势
+        const fortuneData = await deepSeekService.generateDailyFortune(today, this.lunarDate)
+        this.dailyFortuneData = fortuneData
+        
+        // 更新store
+        this.appStore.setDailyFortune(fortuneData)
+        
+        this.updateFortuneDisplay()
+        console.log('运势已刷新:', fortuneData)
+        
+      } catch (error) {
+        console.error('刷新运势失败:', error)
+        alert('刷新运势失败，请稍后重试')
+      } finally {
+        this.loading = false
+      }
     },
     
     goBack() {
-      this.router.go(-1)
+      this.navigateTo('/merit')
     }
   }
 }
@@ -457,9 +580,41 @@ h1 {
 }
 
 .back-btn:hover,
-.refresh-btn:hover {
+.refresh-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-state p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
 }
 
 @media (max-width: 768px) {

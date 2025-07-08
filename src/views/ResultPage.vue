@@ -8,8 +8,49 @@
         <div class="result-section">
           <div class="fortune-result">
             <h2>神算结果</h2>
+            
+            <!-- 算命详情 -->
+            <div v-if="fortuneDetails" class="fortune-details">
+              <div class="input-info">
+                <p><strong>您的愿望：</strong>{{ fortuneDetails.wish }}</p>
+                <p><strong>神算数字：</strong>{{ fortuneDetails.numbers.join(', ') }}</p>
+                <div v-if="fortuneDetails.aiGenerated" class="ai-badge">
+                  <span>🤖 AI神算</span>
+                </div>
+              </div>
+              
+              <div class="fortune-metrics">
+                <div class="metric-item">
+                  <span class="metric-label">运势指数</span>
+                  <div class="metric-value">
+                    <span class="score">{{ fortuneDetails.luckScore }}</span>
+                    <div class="score-bar">
+                      <div class="score-fill" :style="{ width: fortuneDetails.luckScore + '%' }"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="trend-items">
+                  <div class="trend-item">
+                    <span class="trend-icon">💰</span>
+                    <span class="trend-label">财运</span>
+                    <span class="trend-value">{{ fortuneDetails.wealthTrend }}</span>
+                  </div>
+                  <div class="trend-item">
+                    <span class="trend-icon">📈</span>
+                    <span class="trend-label">事业</span>
+                    <span class="trend-value">{{ fortuneDetails.careerTrend }}</span>
+                  </div>
+                  <div class="trend-item">
+                    <span class="trend-icon">🏥</span>
+                    <span class="trend-label">健康</span>
+                    <span class="trend-value">{{ fortuneDetails.healthTrend }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             <div class="result-content">
-              <p>{{ fortuneResult }}</p>
+              <pre class="fortune-text">{{ fortuneResult }}</pre>
             </div>
           </div>
           
@@ -114,9 +155,27 @@ export default {
       // 从store获取算命结果
       const result = this.appStore.fortuneResult
       if (result && result.result) {
-        return `${result.result.title} - ${result.result.description}\n\n${result.result.advice}`
+        const { title, description, advice } = result.result
+        return `【${title}】\n\n${description}\n\n💡 神明指引：\n${advice}`
       }
       return '根据您提供的数字，神明指示：前路光明，贵人相助，但需谨慎行事，避免冲动。近期财运亨通，事业有成，感情和睦。建议多行善事，积累功德。'
+    },
+    fortuneDetails() {
+      // 显示详细的算命信息
+      const result = this.appStore.fortuneResult
+      if (result && result.result) {
+        return {
+          numbers: result.numbers || [],
+          wish: result.wish || '',
+          luckScore: result.result.luck_score || 0,
+          wealthTrend: result.result.wealth_trend || '',
+          careerTrend: result.result.career_trend || '',
+          healthTrend: result.result.health_trend || '',
+          aiGenerated: result.aiGenerated || false,
+          timestamp: result.timestamp || ''
+        }
+      }
+      return null
     },
     totalPrice() {
       return (this.incenseCount * this.currencyRates[this.selectedCurrency]).toFixed(8)
@@ -208,6 +267,123 @@ h1 {
   padding: 1.5rem;
   border-radius: 10px;
   border-left: 4px solid #667eea;
+}
+
+/* Fortune details styles */
+.fortune-details {
+  margin-bottom: 1.5rem;
+}
+
+.input-info {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.input-info p {
+  margin: 0.5rem 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.ai-badge {
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.ai-badge span {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.fortune-metrics {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.metric-item {
+  margin-bottom: 1rem;
+}
+
+.metric-label {
+  display: block;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.metric-value {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.score {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+  min-width: 3rem;
+}
+
+.score-bar {
+  flex: 1;
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.score-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.3s ease;
+}
+
+.trend-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.trend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.trend-icon {
+  font-size: 1.2rem;
+}
+
+.trend-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.trend-value {
+  color: #333;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.fortune-text {
+  color: #555;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-line;
+  font-family: inherit;
 }
 
 .result-content p {

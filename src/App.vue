@@ -69,9 +69,9 @@ export default {
   z-index: 1000;
 
   .wallet-info {
-    display: flex;
+  display: flex;
     align-items: center;
-    gap: 10px;
+  gap: 10px;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 25px;
     padding: 8px 16px;
@@ -87,17 +87,17 @@ export default {
     .disconnect-btn {
       padding: 4px 12px;
       border: 1px solid #dc3545;
-      background: white;
+    background: white;
       color: #dc3545;
       border-radius: 15px;
-      cursor: pointer;
+    cursor: pointer;
       font-size: 0.8rem;
-      transition: all 0.3s;
+    transition: all 0.3s;
 
-      &:hover {
+    &:hover {
         background: #dc3545;
         color: white;
-      }
+    }
     }
   }
 }
