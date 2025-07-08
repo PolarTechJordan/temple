@@ -20,73 +20,73 @@ const chineseRoutes = [
     path: '/',
     name: 'Initial',
     component: InitialPage,
-    meta: { title: '财神庙 - 祈福平台' }
+    meta: { title: '财神殿 - 祈福平台' }
   },
   {
     path: '/wish',
     name: 'Input',
     component: InputPage,
-    meta: { title: '许愿池 - 财神庙' }
+    meta: { title: '许愿池 - 财神殿' }
   },
   {
     path: '/calculate',
     name: 'Calculate',
     component: CalculatePage,
-    meta: { title: '小六壬神算 - 财神庙', requiresWallet: true }
+    meta: { title: '小六壬神算 - 财神殿', requiresWallet: true }
   },
   {
     path: '/result',
     name: 'Result',
     component: ResultPage,
-    meta: { title: '神算结果 - 财神庙', requiresWallet: true }
+    meta: { title: '神算结果 - 财神殿', requiresWallet: true }
   },
   {
     path: '/worship',
     name: 'Worship',
     component: WorshipPage,
-    meta: { title: '虔诚上香 - 财神庙', requiresWallet: true }
+    meta: { title: '虔诚上香 - 财神殿', requiresWallet: true }
   },
   {
     path: '/merit',
     name: 'Merit',
     component: MeritPage,
-    meta: { title: '功德积累 - 财神庙', requiresWallet: true }
+    meta: { title: '功德积累 - 财神殿', requiresWallet: true }
   },
   {
     path: '/share',
     name: 'Share',
     component: SharePage,
-    meta: { title: '分享福报 - 财神庙', requiresWallet: true }
+    meta: { title: '分享福报 - 财神殿', requiresWallet: true }
   },
   {
     path: '/store',
     name: 'Store',
     component: StorePage,
-    meta: { title: '法物商城 - 财神庙', requiresWallet: true }
+    meta: { title: '法物商城 - 财神殿', requiresWallet: true }
   },
   {
     path: '/leaderboard',
     name: 'Leaderboard',
     component: LeaderboardPage,
-    meta: { title: '功德排行 - 财神庙' }
+    meta: { title: '功德排行 - 财神殿' }
   },
   {
     path: '/airdrop',
     name: 'Airdrop',
     component: AirdropPage,
-    meta: { title: '空投好运 - 财神庙', requiresWallet: true }
+    meta: { title: '空投好运 - 财神殿', requiresWallet: true }
   },
   {
     path: '/daily-fortune',
     name: 'DailyFortune',
     component: DailyFortunePage,
-    meta: { title: '每日运势 - 财神庙' }
+    meta: { title: '每日运势 - 财神殿' }
   },
   {
     path: '/contact',
     name: 'Contact',
     component: ContactPage,
-    meta: { title: '联系我们 - 财神庙' }
+    meta: { title: '联系我们 - 财神殿' }
   }
 ]
 

@@ -41,7 +41,7 @@
               :disabled="!wishText.trim()"
               class="submit-btn"
             >
-              {{ $t('input.submit') }}
+              {{ $t('算一算') }}
             </button>
           </div>
         </div>

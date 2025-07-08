@@ -93,7 +93,7 @@ module.exports = defineConfig({
   
   // PWA配置
   pwa: {
-    name: '财神庙 - Rich Temple',
+    name: '财神殿 - Rich Temple',
     themeColor: '#d4af37',
     msTileColor: '#d4af37',
     appleMobileWebAppCapable: 'yes',
@@ -119,7 +119,7 @@ module.exports = defineConfig({
   chainWebpack: config => {
     // 设置页面标题
     config.plugin('html').tap(args => {
-      args[0].title = '财神庙 - Rich Temple | Web3祈福平台'
+      args[0].title = '财神殿 - Rich Temple | Web3祈福平台'
       return args
     })
     

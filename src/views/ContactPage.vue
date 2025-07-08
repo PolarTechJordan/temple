@@ -122,7 +122,7 @@
               <div class="social-icon">💬</div>
               <div class="social-info">
                 <h3>微信公众号</h3>
-                <p>财神庙祈福平台</p>
+                <p>财神殿祈福平台</p>
               </div>
             </a>
 
