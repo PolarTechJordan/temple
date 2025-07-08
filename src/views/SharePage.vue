@@ -8,9 +8,6 @@
           <button @click="shareToTwitter" class="share-btn twitter">
             分享到Twitter
           </button>
-          <button @click="shareToWeChat" class="share-btn wechat">
-            分享到微信
-          </button>
         </div>
       </div>
     </div>
@@ -24,9 +21,6 @@ export default {
     shareToTwitter() {
       console.log('分享到Twitter')
     },
-    shareToWeChat() {
-      console.log('分享到微信')
-    }
   }
 }
 </script>

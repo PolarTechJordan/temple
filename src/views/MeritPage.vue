@@ -255,6 +255,42 @@
           </div>
         </div>
 
+        <!-- 分享福报 -->
+        <div v-if="activeNav === 'share'" class="content-section share-section">
+          <h1>分享福报</h1>
+          <div class="share-preview">
+            <div class="share-intro">
+              <div class="share-icon">📤</div>
+              <h2>分享您的好运给朋友</h2>
+              <p>分享您的福报和功德，让更多人感受到神明的护佑</p>
+            </div>
+            
+            <div class="share-stats">
+              <div class="stat-item">
+                <div class="stat-value">{{ appStore.meritPoints }}</div>
+                <div class="stat-label">功德分</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">{{ levelDisplayName }}</div>
+                <div class="stat-label">当前等级</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">{{ shareCount }}</div>
+                <div class="stat-label">分享次数</div>
+              </div>
+            </div>
+            
+            <div class="share-preview-actions">
+              <button @click="quickShare" class="quick-share-btn">
+                🎯 快速分享
+              </button>
+              <button @click="goToShare" class="share-detail-btn">
+                📤 进入分享页面
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- 联系我们 -->
         <div v-if="activeNav === 'contact'" class="content-section contact-section">
           <h1>联系我们</h1>
@@ -348,6 +384,7 @@ export default {
       lunarDate: '甲子年 丙寅月 戊戌日',
       overallRating: 4,
       todayHighlight: '今日财运亨通，适合投资理财，感情运势上佳。',
+      shareCount: 0,
       navItems: [
         {
           id: 'incense',
@@ -378,6 +415,12 @@ export default {
           label: '法物流通',
           icon: '🏪',
           badge: 'NEW'
+        },
+        {
+          id: 'share',
+          label: '分享福报',
+          icon: '📤',
+          badge: null
         },
         {
           id: 'contact',
@@ -608,6 +651,18 @@ export default {
     
     goToAirdrop() {
       this.navigateTo('/airdrop')
+    },
+    
+    async quickShare() {
+      // 快速分享功能
+      console.log('快速分享功德')
+      this.shareCount++
+      this.appStore.addMeritPoints(10)
+      alert('分享成功！您获得了10功德分')
+    },
+    
+    goToShare() {
+      this.navigateTo('/share')
     }
   }
 }
@@ -1113,6 +1168,99 @@ export default {
 .activity-points {
   color: #28a745;
   font-weight: bold;
+}
+
+/* 分享福报区块 */
+.share-preview {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.share-intro {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.share-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.share-intro h2 {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.share-intro p {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.share-stats {
+  display: flex;
+  justify-content: space-around;
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+.share-stats .stat-item {
+  text-align: center;
+}
+
+.share-stats .stat-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+  margin-bottom: 0.5rem;
+}
+
+.share-stats .stat-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.share-preview-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.quick-share-btn,
+.share-detail-btn {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quick-share-btn {
+  background: #28a745;
+  color: white;
+}
+
+.quick-share-btn:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+.share-detail-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.share-detail-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
 /* 联系我们区块 */
