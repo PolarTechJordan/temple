@@ -9,8 +9,7 @@ const WorshipPage = () => import('@/views/WorshipPage.vue')
 const MeritPage = () => import('@/views/MeritPage.vue')
 const SharePage = () => import('@/views/SharePage.vue')
 const StorePage = () => import('@/views/StorePage.vue')
-const LeaderboardPage = () => import('@/views/LeaderboardPage.vue')
-const AirdropPage = () => import('@/views/AirdropPage.vue')
+
 const DailyFortunePage = () => import('@/views/DailyFortunePage.vue')
 const ContactPage = () => import('@/views/ContactPage.vue')
 
@@ -64,18 +63,7 @@ const chineseRoutes = [
     component: StorePage,
     meta: { title: '法物商城 - 财神殿', requiresWallet: true }
   },
-  {
-    path: '/leaderboard',
-    name: 'Leaderboard',
-    component: LeaderboardPage,
-    meta: { title: '功德排行 - 财神殿' }
-  },
-  {
-    path: '/airdrop',
-    name: 'Airdrop',
-    component: AirdropPage,
-    meta: { title: '空投好运 - 财神殿', requiresWallet: true }
-  },
+
   {
     path: '/daily-fortune',
     name: 'DailyFortune',
@@ -140,18 +128,7 @@ const englishRoutes = [
     component: StorePage,
     meta: { title: 'Sacred Store - Rich Temple', requiresWallet: true }
   },
-  {
-    path: '/en/leaderboard',
-    name: 'LeaderboardEn',
-    component: LeaderboardPage,
-    meta: { title: 'Merit Ranking - Rich Temple' }
-  },
-  {
-    path: '/en/airdrop',
-    name: 'AirdropEn',
-    component: AirdropPage,
-    meta: { title: 'Lucky Airdrop - Rich Temple', requiresWallet: true }
-  },
+
   {
     path: '/en/daily-fortune',
     name: 'DailyFortuneEn',

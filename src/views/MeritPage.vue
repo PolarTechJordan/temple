@@ -21,21 +21,6 @@
             <div v-if="item.badge" class="nav-badge">{{ item.badge }}</div>
           </div>
         </nav>
-
-        <div class="user-summary">
-          <div class="merit-score">
-            <span class="score">{{ appStore.meritPoints }}</span>
-            <span class="unit">功德分</span>
-          </div>
-          <div class="level-progress">
-            <div class="progress-bar">
-              <div class="progress-fill" :style="{ width: progressPercentage + '%' }"></div>
-            </div>
-            <div class="progress-text">
-              距离下一级别：{{ nextLevelInfo ? (nextLevelInfo.minPoints - appStore.meritPoints) : 0 }}分
-            </div>
-          </div>
-        </div>
       </aside>
 
       <!-- 右侧主要内容区 -->
@@ -141,119 +126,9 @@
 
 
 
-        <!-- 功德排行榜 -->
-        <div v-if="activeNav === 'leaderboard'" class="content-section leaderboard-section">
-          <h1>功德排行榜</h1>
-          <div class="leaderboard-preview">
-            <div class="my-ranking">
-              <div class="ranking-card">
-                <div class="rank-badge">
-                  <span class="rank-number">{{ getUserRank() }}</span>
-                  <span class="rank-text">我的排名</span>
-                </div>
-                <div class="rank-details">
-                  <div class="rank-score">{{ appStore.meritPoints }}分</div>
-                  <div class="rank-level">{{ levelDisplayName }}</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="top-users">
-              <h3>功德榜前五名</h3>
-              <div class="users-list">
-                <div v-for="(user, index) in topUsers" :key="user.id" class="user-item">
-                  <div class="user-rank">
-                    <span v-if="index === 0" class="medal gold">🥇</span>
-                    <span v-else-if="index === 1" class="medal silver">🥈</span>
-                    <span v-else-if="index === 2" class="medal bronze">🥉</span>
-                    <span v-else class="rank-num">{{ index + 1 }}</span>
-                  </div>
-                  <div class="user-info">
-                    <div class="user-name">{{ user.name }}</div>
-                    <div class="user-level">{{ user.level }}</div>
-                  </div>
-                  <div class="user-score">{{ user.score }}分</div>
-                </div>
-              </div>
-            </div>
-            
-            <button @click="goToLeaderboard" class="leaderboard-btn">
-              查看完整排行榜
-            </button>
-          </div>
-        </div>
 
-        <!-- 好运空投 -->
-        <div v-if="activeNav === 'airdrop'" class="content-section airdrop-section">
-          <h1>好运空投</h1>
-          <div class="airdrop-preview">
-            <div class="airdrop-info-card">
-              <div class="airdrop-title">
-                <h2>🎁 每日好运空投</h2>
-                <p>基于功德分的随机奖励，功德越高，好运越多！</p>
-              </div>
-              
-              <div class="airdrop-stats">
-                <div class="stat-item">
-                  <div class="stat-icon">🎯</div>
-                  <div class="stat-info">
-                    <span class="stat-value">{{ airdropStats.todayRemaining }}</span>
-                    <span class="stat-label">今日剩余</span>
-                  </div>
-                </div>
-                
-                <div class="stat-item">
-                  <div class="stat-icon">💰</div>
-                  <div class="stat-info">
-                    <span class="stat-value">{{ airdropStats.totalClaimed }}</span>
-                    <span class="stat-label">本月获得</span>
-                  </div>
-                </div>
-                
-                <div class="stat-item">
-                  <div class="stat-icon">⏰</div>
-                  <div class="stat-info">
-                    <span class="stat-value">{{ airdropStats.nextAirdropIn }}</span>
-                    <span class="stat-label">下次空投</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="last-airdrop">
-                <span class="last-label">上次获得：</span>
-                <span class="last-amount">{{ airdropStats.lastAirdrop }}</span>
-              </div>
-            </div>
-            
-            <div class="quick-claim">
-              <div class="claim-preview">
-                <div class="your-chance">
-                  <h3>您的中奖概率</h3>
-                  <div class="chance-display">
-                    <span class="chance-value">{{ getAirdropChance() }}%</span>
-                    <div class="chance-bar">
-                      <div class="chance-fill" :style="{ width: getAirdropChance() + '%' }"></div>
-                    </div>
-                  </div>
-                  <p class="chance-desc">基于您的{{ appStore.meritPoints }}功德分计算</p>
-                </div>
-                
-                <button 
-                  @click="quickClaim" 
-                  :disabled="!airdropStats.canClaim"
-                  class="quick-claim-btn"
-                >
-                  <span v-if="airdropStats.canClaim">🎁 快速抽取</span>
-                  <span v-else>明日再来</span>
-                </button>
-              </div>
-            </div>
-            
-            <button @click="goToAirdrop" class="airdrop-btn">
-              进入空投页面
-            </button>
-          </div>
-        </div>
+
+
 
         <!-- 分享福报 -->
         <div v-if="activeNav === 'share'" class="content-section share-section">
@@ -402,18 +277,6 @@ export default {
           badge: null
         },
         {
-          id: 'leaderboard',
-          label: '功德排行',
-          icon: '🏆',
-          badge: null
-        },
-        {
-          id: 'airdrop',
-          label: '好运空投',
-          icon: '🎁',
-          badge: 'HOT'
-        },
-        {
           id: 'store',
           label: '法物流通',
           icon: '🏪',
@@ -517,20 +380,7 @@ export default {
           points: 5
         }
       ],
-      topUsers: [
-        { id: 1, name: '善缘居士', score: 2500, level: '圣贤' },
-        { id: 2, name: '慈悲心', score: 2000, level: '觉悟者' },
-        { id: 3, name: '福德金刚', score: 1800, level: '觉悟者' },
-        { id: 4, name: '智慧如海', score: 1500, level: '信徒' },
-        { id: 5, name: '普度众生', score: 1200, level: '信徒' }
-      ],
-      airdropStats: {
-        todayRemaining: 3,
-        totalClaimed: 15,
-        nextAirdropIn: '2小时',
-        lastAirdrop: '0.05 SOL',
-        canClaim: true
-      }
+
     }
   },
   computed: {
@@ -652,57 +502,7 @@ export default {
       this.navigateTo('/contact')
     },
     
-    getUserRank() {
-      // 根据当前用户功德分计算在排行榜中的排名
-      const currentScore = this.appStore.meritPoints
-      let rank = 1
-      for (const user of this.topUsers) {
-        if (user.score > currentScore) {
-          rank++
-        }
-      }
-      return rank
-    },
-    
-    getAirdropChance() {
-      // 基于功德分计算中奖概率 (最低10%，最高70%)
-      const baseChance = 10
-      const bonusChance = Math.min(60, Math.floor(this.appStore.meritPoints / 50) * 5)
-      return baseChance + bonusChance
-    },
-    
-    async quickClaim() {
-      if (!this.airdropStats.canClaim) return
-      
-      // 模拟快速抽取
-      const success = Math.random() < (this.getAirdropChance() / 100)
-      
-      if (success) {
-        const amounts = [0.01, 0.02, 0.05, 0.1]
-        const currencies = ['SOL', 'USDT']
-        const amount = amounts[Math.floor(Math.random() * amounts.length)]
-        const currency = currencies[Math.floor(Math.random() * currencies.length)]
-        
-        alert(`🎉 恭喜！您获得了 ${amount} ${currency}`)
-        this.airdropStats.lastAirdrop = `${amount} ${currency}`
-        this.airdropStats.totalClaimed++
-      } else {
-        alert('😅 很遗憾，这次没有中奖，明天再来试试吧！')
-      }
-      
-      this.airdropStats.todayRemaining--
-      if (this.airdropStats.todayRemaining <= 0) {
-        this.airdropStats.canClaim = false
-      }
-    },
-    
-    goToLeaderboard() {
-      this.navigateTo('/leaderboard')
-    },
-    
-    goToAirdrop() {
-      this.navigateTo('/airdrop')
-    },
+
     
     async quickShare() {
       // 快速分享功能
@@ -809,52 +609,7 @@ export default {
   font-weight: bold;
 }
 
-.user-summary {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 15px;
-  padding: 1.5rem;
-}
 
-.merit-score {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.score {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #667eea;
-}
-
-.unit {
-  color: #666;
-  margin-left: 0.5rem;
-}
-
-.level-progress {
-  margin-bottom: 1rem;
-}
-
-.progress-bar {
-  width: 100%;
-  height: 8px;
-  background: #e9ecef;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 0.5rem;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  transition: width 0.3s ease;
-}
-
-.progress-text {
-  font-size: 0.9rem;
-  color: #666;
-  text-align: center;
-}
 
 /* 右侧主要内容区 */
 .main-content {
@@ -1400,304 +1155,11 @@ export default {
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
-/* 功德排行榜区块 */
-.leaderboard-preview {
-  max-width: 800px;
-  margin: 0 auto;
-}
 
-.my-ranking {
-  margin-bottom: 2rem;
-}
 
-.ranking-card {
-  display: flex;
-  align-items: center;
-  padding: 2rem;
-  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-  border-radius: 15px;
-  gap: 2rem;
-}
 
-.rank-badge {
-  text-align: center;
-}
 
-.rank-number {
-  display: block;
-  font-size: 3rem;
-  font-weight: bold;
-  color: #667eea;
-}
 
-.rank-text {
-  color: #856404;
-  font-weight: 600;
-}
-
-.rank-details {
-  flex: 1;
-  text-align: center;
-}
-
-.rank-score {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 0.5rem;
-}
-
-.rank-level {
-  color: #667eea;
-  font-weight: 600;
-  font-size: 1.2rem;
-}
-
-.top-users {
-  margin-bottom: 2rem;
-}
-
-.top-users h3 {
-  color: #333;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.users-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.user-item {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-
-.user-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.user-rank {
-  width: 50px;
-  text-align: center;
-  font-size: 1.5rem;
-}
-
-.medal {
-  font-size: 2rem;
-}
-
-.rank-num {
-  font-weight: bold;
-  color: #667eea;
-  font-size: 1.2rem;
-}
-
-.user-info {
-  flex: 1;
-  margin-left: 1rem;
-}
-
-.user-name {
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0.25rem;
-}
-
-.user-level {
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.user-score {
-  color: #28a745;
-  font-weight: bold;
-  font-size: 1.1rem;
-}
-
-/* 好运空投区块 */
-.airdrop-preview {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.airdrop-info-card {
-  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-  border-radius: 15px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-}
-
-.airdrop-title {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.airdrop-title h2 {
-  color: #0d47a1;
-  margin-bottom: 0.5rem;
-}
-
-.airdrop-title p {
-  color: #1565c0;
-  margin: 0;
-}
-
-.airdrop-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.stat-item {
-  text-align: center;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-}
-
-.stat-icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.stat-value {
-  display: block;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #0d47a1;
-}
-
-.stat-label {
-  color: #1565c0;
-  font-size: 0.9rem;
-}
-
-.last-airdrop {
-  text-align: center;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-}
-
-.last-label {
-  color: #1565c0;
-  margin-right: 0.5rem;
-}
-
-.last-amount {
-  color: #0d47a1;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.quick-claim {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 15px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-}
-
-.your-chance {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.your-chance h3 {
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-.chance-display {
-  margin-bottom: 1rem;
-}
-
-.chance-value {
-  display: block;
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #667eea;
-  margin-bottom: 0.5rem;
-}
-
-.chance-bar {
-  width: 100%;
-  height: 10px;
-  background: #dee2e6;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 0.5rem;
-}
-
-.chance-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  transition: width 0.3s ease;
-}
-
-.chance-desc {
-  color: #666;
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.quick-claim-btn {
-  display: block;
-  width: 100%;
-  max-width: 200px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-  color: white;
-  border: none;
-  border-radius: 25px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.quick-claim-btn:hover:not(:disabled) {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
-}
-
-.quick-claim-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background: #dee2e6;
-}
-
-/* 通用按钮样式扩展 */
-.leaderboard-btn,
-.airdrop-btn {
-  display: block;
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 25px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.leaderboard-btn:hover,
-.airdrop-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-}
 
 @media (max-width: 1024px) {
   .container {
@@ -1758,8 +1220,6 @@ export default {
     gap: 1rem;
   }
   
-  .airdrop-stats {
-    grid-template-columns: 1fr;
-  }
+
 }
 </style> 

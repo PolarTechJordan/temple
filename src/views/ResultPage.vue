@@ -19,34 +19,7 @@
                 </div>
               </div>
               
-              <div class="fortune-metrics">
-                <div class="metric-item">
-                  <span class="metric-label">运势指数</span>
-                  <div class="metric-value">
-                    <span class="score">{{ fortuneDetails.luckScore }}</span>
-                    <div class="score-bar">
-                      <div class="score-fill" :style="{ width: fortuneDetails.luckScore + '%' }"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="trend-items">
-                  <div class="trend-item">
-                    <span class="trend-icon">💰</span>
-                    <span class="trend-label">财运</span>
-                    <span class="trend-value">{{ fortuneDetails.wealthTrend }}</span>
-                  </div>
-                  <div class="trend-item">
-                    <span class="trend-icon">📈</span>
-                    <span class="trend-label">事业</span>
-                    <span class="trend-value">{{ fortuneDetails.careerTrend }}</span>
-                  </div>
-                  <div class="trend-item">
-                    <span class="trend-icon">🏥</span>
-                    <span class="trend-label">健康</span>
-                    <span class="trend-value">{{ fortuneDetails.healthTrend }}</span>
-                  </div>
-                </div>
-              </div>
+
             </div>
             
             <div class="result-content">
@@ -301,81 +274,7 @@ h1 {
   font-weight: 600;
 }
 
-.fortune-metrics {
-  background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-}
 
-.metric-item {
-  margin-bottom: 1rem;
-}
-
-.metric-label {
-  display: block;
-  color: #333;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.metric-value {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.score {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #667eea;
-  min-width: 3rem;
-}
-
-.score-bar {
-  flex: 1;
-  height: 8px;
-  background: #e9ecef;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.score-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  transition: width 0.3s ease;
-}
-
-.trend-items {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
-}
-
-.trend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.8rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.trend-icon {
-  font-size: 1.2rem;
-}
-
-.trend-label {
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.trend-value {
-  color: #333;
-  font-weight: 600;
-  margin-left: auto;
-}
 
 .fortune-text {
   color: #555;
