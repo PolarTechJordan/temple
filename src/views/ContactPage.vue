@@ -147,10 +147,6 @@
           </div>
         </div>
 
-        <!-- 返回按钮 -->
-        <div class="action-buttons">
-          <button @click="goBack" class="back-btn">返回</button>
-        </div>
       </div>
     </div>
   </div>
@@ -248,9 +244,6 @@ export default {
       this.activeFaq = this.activeFaq === index ? null : index
     },
     
-    goBack() {
-      this.router.go(-1)
-    }
   }
 }
 </script>
@@ -499,23 +492,6 @@ h1 {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
-}
-
-.back-btn {
-  padding: 0.8rem 2rem;
-  border: none;
-  border-radius: 25px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: #6c757d;
-  color: white;
-}
-
-.back-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 768px) {

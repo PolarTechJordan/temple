@@ -110,13 +110,6 @@
           <p>正在生成每日运势...</p>
         </div>
 
-        <!-- 返回按钮 -->
-        <div class="action-buttons">
-          <button @click="goBack" class="back-btn">返回</button>
-          <button @click="refreshFortune" :disabled="loading" class="refresh-btn">
-            {{ loading ? '生成中...' : '刷新运势' }}
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -315,38 +308,7 @@ export default {
         this.auspiciousText = '平'
       }
     },
-    
-    async refreshFortune() {
-      // 清除缓存并重新生成运势
-      this.loading = true
-      
-      try {
-        const today = new Date().toISOString().split('T')[0]
-        
-        // 清除DeepSeek服务的缓存
-        deepSeekService.clearCache()
-        
-        // 重新生成运势
-        const fortuneData = await deepSeekService.generateDailyFortune(today, this.lunarDate)
-        this.dailyFortuneData = fortuneData
-        
-        // 更新store
-        this.appStore.setDailyFortune(fortuneData)
-        
-        this.updateFortuneDisplay()
-        console.log('运势已刷新:', fortuneData)
-        
-      } catch (error) {
-        console.error('刷新运势失败:', error)
-        alert('刷新运势失败，请稍后重试')
-      } finally {
-        this.loading = false
-      }
-    },
-    
-    goBack() {
-      this.navigateTo('/merit')
-    }
+
   }
 }
 </script>
@@ -563,38 +525,6 @@ h1 {
   display: flex;
   gap: 1rem;
   justify-content: center;
-}
-
-.back-btn,
-.refresh-btn {
-  padding: 0.8rem 2rem;
-  border: none;
-  border-radius: 25px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.back-btn {
-  background: #6c757d;
-  color: white;
-}
-
-.refresh-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.back-btn:hover,
-.refresh-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.refresh-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 .loading-state {
