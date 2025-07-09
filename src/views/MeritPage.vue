@@ -25,41 +25,31 @@
 
       <!-- 右侧主要内容区 -->
       <main class="main-content">
+        <!-- 默认主页面 -->
+        <div v-if="activeNav === null || activeNav === 'main'" class="content-section main-section">
+          <div class="main-welcome">
+            <h1>上香成功</h1>
+            <p class="success-message">您的愿望已传达至神明</p>
+            
+            <div class="main-actions">
+              <button @click="shareToTwitter" class="main-btn share-twitter-btn">
+                分享至...
+              </button>
+              <button @click="goToIncense" class="main-btn incense-again-btn">
+                再次祈愿上香
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- 祈愿上香 -->
         <div v-if="activeNav === 'incense'" class="content-section incense-section">
           <h1>祈愿上香</h1>
-          <div class="incense-container">
-            <div class="incense-altar">
-              <div class="altar-image">
-                <div class="incense-burner">🏺</div>
-                <div class="flames">🔥</div>
-              </div>
-              <p class="altar-desc">虔诚上香，祈求神明护佑</p>
-            </div>
-            
-            <div class="incense-options">
-              <h3>选择香火</h3>
-              <div class="incense-types">
-                <div v-for="incense in incenseTypes" :key="incense.id" 
-                     @click="selectIncense(incense)"
-                     class="incense-type"
-                     :class="{ selected: selectedIncense?.id === incense.id }">
-                  <div class="incense-icon">{{ incense.icon }}</div>
-                  <div class="incense-info">
-                    <h4>{{ incense.name }}</h4>
-                    <p>{{ incense.description }}</p>
-                    <div class="incense-price">{{ incense.price }} SOL</div>
-                  </div>
-                </div>
-              </div>
-              
-              <button 
-                @click="startIncense" 
-                :disabled="!selectedIncense"
-                class="incense-btn"
-              >
-                开始上香
-              </button>
+          <div class="incense-redirect">
+            <div class="redirect-message">
+              <div class="redirect-icon">🕯️</div>
+              <h2>正在跳转到祈愿页面...</h2>
+              <p>请稍候，即将为您打开许愿界面</p>
             </div>
           </div>
         </div>
@@ -130,41 +120,7 @@
 
 
 
-        <!-- 分享福报 -->
-        <div v-if="activeNav === 'share'" class="content-section share-section">
-          <h1>分享福报</h1>
-          <div class="share-preview">
-            <div class="share-intro">
-              <div class="share-icon">📤</div>
-              <h2>分享您的好运给朋友</h2>
-              <p>分享您的福报和功德，让更多人感受到神明的护佑</p>
-            </div>
-            
-            <div class="share-stats">
-              <div class="stat-item">
-                <div class="stat-value">{{ appStore.meritPoints }}</div>
-                <div class="stat-label">功德分</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value">{{ levelDisplayName }}</div>
-                <div class="stat-label">当前等级</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value">{{ shareCount }}</div>
-                <div class="stat-label">分享次数</div>
-              </div>
-            </div>
-            
-            <div class="share-preview-actions">
-              <button @click="quickShare" class="quick-share-btn">
-                🎯 快速分享
-              </button>
-              <button @click="goToShare" class="share-detail-btn">
-                📤 进入分享页面
-              </button>
-            </div>
-          </div>
-        </div>
+
 
         <!-- 联系我们 -->
         <div v-if="activeNav === 'contact'" class="content-section contact-section">
@@ -253,7 +209,7 @@ export default {
   },
   data() {
     return {
-      activeNav: 'incense',
+      activeNav: 'main',
       selectedIncense: null,
       quickFeedback: '',
       todayDate: '',
@@ -262,7 +218,6 @@ export default {
       todayHighlight: '今日财运亨通，适合投资理财，感情运势上佳。',
       dailyFortuneData: null,
       loadingFortune: false,
-      shareCount: 0,
       navItems: [
         {
           id: 'incense',
@@ -281,12 +236,6 @@ export default {
           label: '法物流通',
           icon: '🏪',
           badge: 'NEW'
-        },
-        {
-          id: 'share',
-          label: '分享福报',
-          icon: '📤',
-          badge: null
         },
         {
           id: 'contact',
@@ -401,6 +350,11 @@ export default {
   },
   methods: {
     selectNav(navId) {
+      if (navId === 'incense') {
+        // 直接跳转到InputPage
+        this.goToIncense()
+        return
+      }
       this.activeNav = navId
     },
     
@@ -491,30 +445,33 @@ export default {
     },
     
     goToFortune() {
-      this.navigateTo('/daily-fortune')
+      this.navigateTo('/daily-fortune?showNav=true')
     },
     
     goToStore() {
-      this.navigateTo('/store')
+      this.navigateTo('/store?showNav=true')
     },
     
     goToContact() {
-      this.navigateTo('/contact')
+      this.navigateTo('/contact?showNav=true')
     },
+    
+    shareToTwitter() {
+      // 分享到 Twitter 的逻辑
+      const text = encodeURIComponent('心念通灵，财运自显。🙏 在财神殿许下心愿，神明已为我指引方向！✨ #财神殿 #祈福 #好运连连')
+      const url = encodeURIComponent(window.location.origin)
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`
+      window.open(twitterUrl, '_blank', 'width=600,height=400')
+    },
+    
+    goToIncense() {
+      // 跳转到InputPage并携带导航栏显示参数
+      this.navigateTo('/wish?showNav=true')
+    }
     
 
     
-    async quickShare() {
-      // 快速分享功能
-      console.log('快速分享功德')
-      this.shareCount++
-      this.appStore.addMeritPoints(10)
-      alert('分享成功！您获得了10功德分')
-    },
-    
-    goToShare() {
-      this.navigateTo('/share')
-    }
+
   }
 }
 </script>
@@ -529,8 +486,8 @@ export default {
 .container {
   display: flex;
   min-height: 100vh;
-  max-width: 1400px;
-  margin: 0 auto;
+  max-width: none; /* 移除最大宽度限制 */
+  margin: 0; /* 移除居中，让导航栏紧靠左边 */
 }
 
 /* 左侧导航栏 */
@@ -632,122 +589,113 @@ export default {
   font-size: 2rem;
 }
 
-/* 祈愿上香区块 */
-.incense-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: start;
+/* 主页面样式 */
+.main-section {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.incense-altar {
+.main-welcome {
   text-align: center;
-  padding: 2rem;
-  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-  border-radius: 15px;
+  max-width: 500px;
+  width: 100%;
 }
 
-.altar-image {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-}
-
-.incense-burner {
-  margin-bottom: 0.5rem;
-}
-
-.flames {
-  animation: flicker 1.5s infinite alternate;
-}
-
-@keyframes flicker {
-  0% { opacity: 0.8; }
-  100% { opacity: 1; }
-}
-
-.altar-desc {
-  color: #856404;
-  font-weight: 600;
-  margin: 0;
-}
-
-.incense-options h3 {
+.main-welcome h1 {
+  font-size: 3rem;
   color: #333;
   margin-bottom: 1rem;
+  font-weight: 700;
 }
 
-.incense-types {
+.success-message {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 3rem;
+}
+
+.main-actions {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.incense-type {
-  display: flex;
   align-items: center;
-  padding: 1rem;
-  border: 2px solid #e9ecef;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.incense-type:hover {
-  border-color: #667eea;
-}
-
-.incense-type.selected {
-  border-color: #667eea;
-  background: #f0f4ff;
-}
-
-.incense-icon {
-  font-size: 2rem;
-  margin-right: 1rem;
-}
-
-.incense-info {
-  flex: 1;
-}
-
-.incense-info h4 {
-  color: #333;
-  margin-bottom: 0.5rem;
-}
-
-.incense-info p {
-  color: #666;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-}
-
-.incense-price {
-  color: #667eea;
-  font-weight: bold;
-}
-
-.incense-btn {
-  width: 100%;
-  padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+.main-btn {
+  width: 200px;
+  padding: 1rem 2rem;
   border: none;
-  border-radius: 10px;
+  border-radius: 25px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.incense-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+.share-twitter-btn {
+  background: #4a5568;
+  color: white;
 }
 
-.incense-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.share-twitter-btn:hover {
+  background: #2d3748;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(74, 85, 104, 0.4);
+}
+
+.incense-again-btn {
+  background: #4a5568;
+  color: white;
+}
+
+.incense-again-btn:hover {
+  background: #2d3748;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(74, 85, 104, 0.4);
+}
+
+/* 祈愿上香重定向区块 */
+.incense-redirect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.redirect-message {
+  text-align: center;
+  max-width: 400px;
+}
+
+.redirect-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.redirect-message h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.redirect-message p {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@keyframes glow {
+  0% { 
+    opacity: 0.8; 
+    transform: scale(1);
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1.1);
+  }
 }
 
 /* 每日运势区块 */
@@ -976,98 +924,7 @@ export default {
   font-weight: bold;
 }
 
-/* 分享福报区块 */
-.share-preview {
-  max-width: 600px;
-  margin: 0 auto;
-}
 
-.share-intro {
-  text-align: center;
-  padding: 2rem;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  border-radius: 15px;
-  margin-bottom: 2rem;
-  color: white;
-}
-
-.share-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.share-intro h2 {
-  color: white;
-  margin-bottom: 1rem;
-}
-
-.share-intro p {
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0;
-}
-
-.share-stats {
-  display: flex;
-  justify-content: space-around;
-  background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-bottom: 2rem;
-}
-
-.share-stats .stat-item {
-  text-align: center;
-}
-
-.share-stats .stat-value {
-  display: block;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #667eea;
-  margin-bottom: 0.5rem;
-}
-
-.share-stats .stat-label {
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.share-preview-actions {
-  display: flex;
-  gap: 1rem;
-}
-
-.quick-share-btn,
-.share-detail-btn {
-  flex: 1;
-  padding: 1rem;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.quick-share-btn {
-  background: #28a745;
-  color: white;
-}
-
-.quick-share-btn:hover {
-  background: #218838;
-  transform: translateY(-2px);
-}
-
-.share-detail-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.share-detail-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-}
 
 /* 联系我们区块 */
 .contact-methods {
@@ -1163,12 +1020,57 @@ export default {
 
 @media (max-width: 1024px) {
   .container {
+    flex-direction: row; /* 保持横向布局 */
+  }
+  
+  .sidebar {
+    width: 250px; /* 移动端缩小导航栏宽度 */
+    padding: 1.5rem;
+  }
+  
+  .sidebar-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .nav-item {
+    padding: 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  .nav-icon {
+    font-size: 1.3rem;
+    margin-right: 0.8rem;
+  }
+  
+  .nav-label {
+    font-size: 0.9rem;
+  }
+  
+  .main-content {
+    padding: 1.5rem;
+  }
+  
+  .today-fortune {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .merit-stats,
+  .store-categories,
+  .items-grid,
+  .contact-methods {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
     flex-direction: column;
   }
   
   .sidebar {
     width: 100%;
-    position: relative;
     padding: 1rem;
   }
   
@@ -1198,28 +1100,8 @@ export default {
     margin-bottom: 0.25rem;
   }
   
-  .incense-container {
-    grid-template-columns: 1fr;
+  .main-content {
+    padding: 1rem;
   }
-  
-  .today-fortune {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .merit-stats,
-  .store-categories,
-  .items-grid,
-  .contact-methods {
-    grid-template-columns: 1fr;
-  }
-  
-  .ranking-card {
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem;
-  }
-  
-
 }
 </style> 

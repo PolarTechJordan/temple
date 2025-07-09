@@ -7,7 +7,7 @@ const CalculatePage = () => import('@/views/CalculatePage.vue')
 const ResultPage = () => import('@/views/ResultPage.vue')
 const WorshipPage = () => import('@/views/WorshipPage.vue')
 const MeritPage = () => import('@/views/MeritPage.vue')
-const SharePage = () => import('@/views/SharePage.vue')
+
 const StorePage = () => import('@/views/StorePage.vue')
 
 const DailyFortunePage = () => import('@/views/DailyFortunePage.vue')
@@ -51,12 +51,7 @@ const chineseRoutes = [
     component: MeritPage,
     meta: { title: '功德积累 - 财神殿', requiresWallet: true }
   },
-  {
-    path: '/share',
-    name: 'Share',
-    component: SharePage,
-    meta: { title: '分享福报 - 财神殿', requiresWallet: true }
-  },
+
   {
     path: '/store',
     name: 'Store',
@@ -116,12 +111,7 @@ const englishRoutes = [
     component: MeritPage,
     meta: { title: 'Merit Points - Rich Temple', requiresWallet: true }
   },
-  {
-    path: '/en/share',
-    name: 'ShareEn',
-    component: SharePage,
-    meta: { title: 'Share Blessing - Rich Temple', requiresWallet: true }
-  },
+
   {
     path: '/en/store',
     name: 'StoreEn',

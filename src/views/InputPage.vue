@@ -1,7 +1,10 @@
 <template>
   <div class="input-page">
-    <!-- 语言切换按钮（只在这个页面显示） -->
-    <div class="language-switcher">
+    <!-- 悬浮导航栏组件 -->
+    <FloatingSidebar activeNav="incense" />
+
+    <!-- 语言切换按钮（条件显示） -->
+    <div v-if="!$route.query.showNav" class="language-switcher">
       <button @click="toggleLanguage" class="language-toggle-btn">
         {{ currentLocale === 'zh-CN' ? '中' : 'EN' }}
       </button>
@@ -126,9 +129,13 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import { computed } from 'vue'
+import FloatingSidebar from '@/components/FloatingSidebar.vue'
 
 export default {
   name: 'InputPage',
+  components: {
+    FloatingSidebar
+  },
   setup() {
     const { t, locale } = useI18n()
     const router = useRouter()
@@ -179,9 +186,11 @@ export default {
       connecting: false,
       error: null,
       showWalletModal: false,
-      showWalletAlert: false
+      showWalletAlert: false,
+
     }
   },
+
   methods: {
     async connectWallet() {
       this.connecting = true
@@ -239,8 +248,11 @@ export default {
     openWalletFromAlert() {
       this.showWalletAlert = false
       this.showWalletModal = true
-    }
-  }
+    },
+
+
+  },
+
 }
 </script>
 
@@ -285,6 +297,8 @@ export default {
     transform: scale(0.95);
   }
 }
+
+
 
 /* 右上角钱包区域 */
 .wallet-header {
@@ -728,6 +742,30 @@ h1 {
   .wish-section {
     padding: 1.5rem;
     max-width: 100%;
+  }
+  
+  /* 移动端悬浮导航栏 */
+  .floating-sidebar {
+    width: 260px;
+    left: -260px;
+    padding: 1.5rem;
+  }
+  
+  .nav-trigger-zone {
+    width: 30px;
+  }
+  
+  .floating-sidebar .nav-item {
+    padding: 0.8rem;
+  }
+  
+  .floating-sidebar .nav-icon {
+    font-size: 1.3rem;
+    margin-right: 0.8rem;
+  }
+  
+  .floating-sidebar .nav-label {
+    font-size: 0.9rem;
   }
   
   .wallet-option-btn {

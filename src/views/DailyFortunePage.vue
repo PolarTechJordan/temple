@@ -1,5 +1,8 @@
 <template>
   <div class="daily-fortune-page">
+    <!-- 悬浮导航栏组件 -->
+    <FloatingSidebar activeNav="fortune" />
+    
     <div class="container">
       <h1>每日运势</h1>
       
@@ -123,9 +126,13 @@
 import { useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import deepSeekService from '@/services/deepseekService'
+import FloatingSidebar from '@/components/FloatingSidebar.vue'
 
 export default {
   name: 'DailyFortunePage',
+  components: {
+    FloatingSidebar
+  },
   setup() {
     const router = useRouter()
     const appStore = useAppStore()

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>悬浮导航栏功能测试</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .test-link {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .test-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .description {
+            margin-top: 1rem;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-success {
+            background: #4CAF50;
+        }
+
+        .status-pending {
+            background: #FF9800;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 悬浮导航栏功能测试</h1>
+        
+        <div class="test-section">
+            <h2><span class="status-indicator status-success"></span>基础页面测试</h2>
+            <p>测试各个页面的基础访问功能：</p>
+            <a href="http://localhost:8080/" class="test-link" target="_blank">首页 (无导航栏)</a>
+            <a href="http://localhost:8080/wish" class="test-link" target="_blank">祈愿页面 (无导航栏)</a>
+            <a href="http://localhost:8080/merit" class="test-link" target="_blank">功德页面 (固定导航栏)</a>
+            <div class="description">
+                验证首页和祈愿页面默认没有导航栏，功德页面有固定的左侧导航栏。
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2><span class="status-indicator status-success"></span>悬浮导航栏测试</h2>
+            <p>测试带悬浮导航栏的页面访问：</p>
+            <a href="http://localhost:8080/wish?showNav=true" class="test-link" target="_blank">祈愿页面 (带悬浮导航栏)</a>
+            <a href="http://localhost:8080/daily-fortune?showNav=true" class="test-link" target="_blank">每日运势 (带悬浮导航栏)</a>
+            <a href="http://localhost:8080/store?showNav=true" class="test-link" target="_blank">法物商城 (带悬浮导航栏)</a>
+            <div class="description">
+                验证这些页面左侧有悬浮导航栏，默认隐藏，鼠标移动到左侧边界时弹出。
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2><span class="status-indicator status-success"></span>导航流程测试</h2>
+            <p>测试完整的导航流程：</p>
+            <ol style="color: white;">
+                <li>访问 <a href="http://localhost:8080/merit" class="test-link" target="_blank">功德页面</a></li>
+                <li>点击"祈愿上香"按钮 → 应跳转到带导航栏的祈愿页面</li>
+                <li>在祈愿页面，鼠标移动到左侧边界 → 导航栏应弹出</li>
+                <li>点击导航栏中的"每日运势" → 应跳转到带导航栏的运势页面</li>
+                <li>点击导航栏中的"法物流通" → 应跳转到带导航栏的商城页面</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h2><span class="status-indicator status-success"></span>已实现功能清单</h2>
+            <ul class="feature-list">
+                <li><span class="status-indicator status-success"></span>MeritPage导航栏紧靠左边</li>
+                <li><span class="status-indicator status-success"></span>InputPage条件显示语言切换按钮</li>
+                <li><span class="status-indicator status-success"></span>通用FloatingSidebar组件</li>
+                <li><span class="status-indicator status-success"></span>悬浮导航栏默认隐藏</li>
+                <li><span class="status-indicator status-success"></span>鼠标悬停触发导航栏显示</li>
+                <li><span class="status-indicator status-success"></span>导航栏延迟隐藏防闪烁</li>
+                <li><span class="status-indicator status-success"></span>路由参数控制导航栏显示</li>
+                <li><span class="status-indicator status-success"></span>DailyFortunePage集成悬浮导航栏</li>
+                <li><span class="status-indicator status-success"></span>StorePage集成悬浮导航栏</li>
+                <li><span class="status-indicator status-success"></span>导航状态在页面间保持</li>
+                <li><span class="status-indicator status-success"></span>响应式设计和移动端适配</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🎯 测试说明</h2>
+            <p>测试悬浮导航栏功能时，请注意以下几点：</p>
+            <ul style="color: white;">
+                <li><strong>触发区域</strong>：鼠标移动到屏幕最左侧边界（20px宽度区域）</li>
+                <li><strong>显示效果</strong>：导航栏从左侧平滑滑出，带有半透明背景</li>
+                <li><strong>隐藏机制</strong>：鼠标离开导航栏区域300ms后自动隐藏</li>
+                <li><strong>导航功能</strong>：点击导航项会跳转到对应页面并保持导航栏状态</li>
+                <li><strong>当前页面高亮</strong>：当前所在页面的导航项会有特殊样式</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 监听页面加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('悬浮导航栏测试页面已加载');
+            console.log('开发服务器：http://localhost:8080');
+        });
+    </script>
+</body>
+</html> 

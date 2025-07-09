@@ -1,5 +1,8 @@
 <template>
   <div class="contact-page">
+    <!-- 悬浮导航栏组件 -->
+    <FloatingSidebar activeNav="contact" />
+    
     <div class="container">
       <h1>联系我们</h1>
       
@@ -155,9 +158,13 @@
 
 <script>
 import { useRouter } from 'vue-router'
+import FloatingSidebar from '@/components/FloatingSidebar.vue'
 
 export default {
   name: 'ContactPage',
+  components: {
+    FloatingSidebar
+  },
   setup() {
     const router = useRouter()
     

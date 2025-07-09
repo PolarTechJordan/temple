@@ -1,5 +1,8 @@
 <template>
   <div class="store-page">
+    <!-- 悬浮导航栏组件 -->
+    <FloatingSidebar activeNav="store" />
+    
     <div class="container">
       <h1>法物商城</h1>
       <div class="store-container">
@@ -17,8 +20,13 @@
 </template>
 
 <script>
+import FloatingSidebar from '@/components/FloatingSidebar.vue'
+
 export default {
   name: 'StorePage',
+  components: {
+    FloatingSidebar
+  },
   data() {
     return {
       storeItems: [
