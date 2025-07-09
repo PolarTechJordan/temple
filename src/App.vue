@@ -55,11 +55,12 @@ export default {
 
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'KaiTi', 'STKaiti', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   position: relative;
+  background: #F9F4E2;
 }
 
 .wallet-status {
@@ -87,17 +88,18 @@ export default {
     .disconnect-btn {
       padding: 4px 12px;
       border: 1px solid #dc3545;
-    background: white;
+      background: white;
       color: #dc3545;
       border-radius: 15px;
-    cursor: pointer;
+      cursor: pointer;
       font-size: 0.8rem;
-    transition: all 0.3s;
+      font-family: 'KaiTi', 'STKaiti', serif;
+      transition: all 0.3s;
 
-    &:hover {
+      &:hover {
         background: #dc3545;
         color: white;
-    }
+      }
     }
   }
 }

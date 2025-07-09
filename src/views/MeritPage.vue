@@ -32,10 +32,10 @@
             <p class="success-message">您的愿望已传达至神明</p>
             
             <div class="main-actions">
-              <button @click="shareToTwitter" class="main-btn share-twitter-btn">
+              <button @click="shareToTwitter" class="ink-button share-twitter-btn">
                 分享至...
               </button>
-              <button @click="goToIncense" class="main-btn incense-again-btn">
+              <button @click="goToIncense" class="ink-button incense-again-btn">
                 再次祈愿上香
               </button>
             </div>
@@ -75,7 +75,7 @@
               </div>
             </div>
             
-            <button @click="goToFortune" class="detail-btn">
+            <button @click="goToFortune" class="detail-btn ink-button">
               查看详细运势
             </button>
           </div>
@@ -108,7 +108,7 @@
               </div>
             </div>
             
-            <button @click="goToStore" class="store-btn">
+            <button @click="goToStore" class="store-btn ink-button">
               进入法物商城
             </button>
           </div>
@@ -159,12 +159,12 @@
                 placeholder="请输入您的问题或建议..."
                 class="feedback-input"
               ></textarea>
-              <button @click="submitQuickFeedback" class="feedback-btn">
+              <button @click="submitQuickFeedback" class="feedback-btn ink-button">
                 提交反馈
               </button>
             </div>
             
-            <button @click="goToContact" class="contact-btn">
+            <button @click="goToContact" class="contact-btn ink-button">
               查看更多联系方式
             </button>
           </div>
@@ -479,8 +479,9 @@ export default {
 <style scoped>
 .merit-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #F9F4E2;
   padding: 0;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .container {

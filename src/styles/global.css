@@ -14,15 +14,21 @@ html {
 }
 
 body {
-  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  color: #333;
+  font-family: 'KaiTi', 'STKaiti', serif;
+  background: #F9F4E2;
+  color: #2C2C2C;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 财神殿主题色彩变量 */
+/* 新中式美学色彩变量 */
 :root {
+  /* 新中式色彩系统 */
+  --rice: #F9F4E2;
+  --ink: #2C2C2C;
+  --ink-light: #4A4A4A;
+  --ink-lighter: #6B6B6B;
+  
   /* 主色调 - 金色系 */
   --primary-color: #d4af37;
   --primary-light: #f4d03f;
@@ -96,6 +102,56 @@ body {
   --spacing-xl: 3rem;
 }
 
+/* 水墨按钮样式 */
+.ink-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.375rem;
+  transition: all 0.3s ease;
+  user-select: none;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  color: white;
+  font-family: 'KaiTi', 'STKaiti', serif;
+}
+
+.ink-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: all 0.6s ease;
+}
+
+.ink-button:hover::before {
+  left: 100%;
+}
+
+.ink-button:hover {
+  background-color: rgba(102, 0, 0, 0.8) !important;
+  transform: translateY(-2px);
+}
+
+.ink-button:active,
+.ink-button.clicked {
+  background-color: rgba(0, 0, 0, 1) !important;
+  transform: translateY(0);
+}
+
 /* 通用按钮样式 */
 .btn {
   display: inline-block;
@@ -113,6 +169,7 @@ body {
   transition: all var(--transition-normal) ease-in-out;
   user-select: none;
   outline: none;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .btn:hover {

@@ -11,7 +11,7 @@
             <img :src="item.image" :alt="item.name" class="item-image" />
             <h3>{{ item.name }}</h3>
             <p class="item-price">{{ item.price }}</p>
-            <button class="buy-btn">购买</button>
+            <button class="ink-button">购买</button>
           </div>
         </div>
       </div>
@@ -43,8 +43,9 @@ export default {
 <style scoped>
 .store-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #F9F4E2;
   padding: 2rem;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .container {
@@ -54,13 +55,15 @@ export default {
 
 h1 {
   text-align: center;
-  color: white;
+  color: #2C2C2C;
   margin-bottom: 2rem;
   font-size: 2.5rem;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .store-container {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(44, 44, 44, 0.1);
   border-radius: 20px;
   padding: 2rem;
   backdrop-filter: blur(10px);

@@ -2,6 +2,17 @@
   <div class="calculate-page">
     <div class="container">
       <h1>{{ $t('calculate.title') }}</h1>
+      
+      <!-- 愿望显示区域 -->
+      <div class="wish-display-section">
+        <div class="wish-display">
+          <h3>您的愿望</h3>
+          <div class="wish-content">
+            {{ userWish || '暂无愿望内容' }}
+          </div>
+        </div>
+      </div>
+      
       <div class="calculate-container">
         <div class="description">
           <h2>小六壬神算</h2>
@@ -48,16 +59,45 @@
           <button
             @click="calculateFortune"
             :disabled="!isValidInput || calculating"
-            class="calculate-btn"
+            class="ink-button"
           >
             <span v-if="calculating">算命中...</span>
             <span v-else>开始算命</span>
+          </button>
+          
+          <!-- 修改愿望按钮 -->
+          <button
+            @click="goBackToInput"
+            class="ink-button"
+          >
+            修改愿望
           </button>
         </div>
         
         <div v-if="calculating" class="calculating-animation">
           <div class="spinner"></div>
           <p>神明正在为您指点迷津...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 全屏视频动画遮罩层 -->
+    <div v-if="showLoadingVideo" class="video-loading-overlay">
+      <video 
+        ref="loadingVideo"
+        class="loading-video"
+        autoplay
+        loop
+        muted
+        playsinline
+        :src="videoSrc"
+      >
+      </video>
+      
+      <div class="loading-text">
+        <h2>神明正在为您算命...</h2>
+        <div class="loading-dots">
+          <span></span><span></span><span></span>
         </div>
       </div>
     </div>
@@ -92,7 +132,13 @@ export default {
   data() {
     return {
       numbers: [null, null, null],
-      calculating: false
+      calculating: false,
+      // 视频播放相关
+      showLoadingVideo: false,
+      videoStartTime: null,
+      minPlayDuration: 3000, // 最少播放3秒
+      modelCallComplete: false,
+      videoSrc: require('@/assets/videos/temple-intro.mp4')
     }
   },
   computed: {
@@ -103,11 +149,20 @@ export default {
         num <= 99 && 
         !isNaN(num)
       )
+    },
+    
+    userWish() {
+      return this.appStore.userWish
     }
   },
   methods: {
     async calculateFortune() {
       if (!this.isValidInput) return
+      
+      // 显示视频动画
+      this.showLoadingVideo = true
+      this.videoStartTime = Date.now()
+      this.modelCallComplete = false
       
       this.calculating = true
       
@@ -131,8 +186,9 @@ export default {
         
         console.log('AI算命结果:', fortuneResult)
         
-        // 跳转到结果页面
-        this.navigateTo('/result')
+        // 标记模型调用完成
+        this.modelCallComplete = true
+        this.checkVideoCompletion()
         
       } catch (error) {
         console.error('算命失败:', error)
@@ -146,11 +202,41 @@ export default {
         }
         
         this.appStore.saveFortuneResult(fallbackResult)
-        this.navigateTo('/result')
+        
+        // 标记模型调用完成
+        this.modelCallComplete = true
+        this.checkVideoCompletion()
         
       } finally {
         this.calculating = false
       }
+    },
+    
+    checkVideoCompletion() {
+      const currentTime = Date.now()
+      const playedDuration = currentTime - this.videoStartTime
+      
+      if (this.modelCallComplete && playedDuration >= this.minPlayDuration) {
+        // 条件满足，结束视频播放
+        this.endVideoAndNavigate()
+      } else if (this.modelCallComplete) {
+        // 模型完成但播放时间不够，等待剩余时间
+        const remainingTime = this.minPlayDuration - playedDuration
+        setTimeout(() => {
+          this.endVideoAndNavigate()
+        }, remainingTime)
+      }
+      // 如果模型未完成，继续等待
+    },
+    
+    endVideoAndNavigate() {
+      this.showLoadingVideo = false
+      // 跳转到结果页面
+      this.navigateTo('/result')
+    },
+    
+    goBackToInput() {
+      this.navigateTo('/wish')
     },
     
     generateMockFortune() {
@@ -190,6 +276,14 @@ export default {
       
       return fortunes[index]
     }
+  },
+
+  beforeUnmount() {
+    // 清理定时器和视频资源
+    if (this.$refs.loadingVideo) {
+      this.$refs.loadingVideo.pause()
+      this.$refs.loadingVideo.src = ''
+    }
   }
 }
 </script>
@@ -197,11 +291,12 @@ export default {
 <style scoped>
 .calculate-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #F9F4E2;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .container {
@@ -211,13 +306,51 @@ export default {
 
 h1 {
   text-align: center;
-  color: white;
+  color: #2C2C2C;
   margin-bottom: 2rem;
   font-size: 2.5rem;
+  font-family: 'KaiTi', 'STKaiti', serif;
+}
+
+/* 愿望显示区域样式 */
+.wish-display-section {
+  margin-bottom: 2rem;
+}
+
+.wish-display {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(44, 44, 44, 0.1);
+}
+
+.wish-display h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.wish-content {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #495057;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-style: italic;
 }
 
 .calculate-container {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(44, 44, 44, 0.1);
   border-radius: 20px;
   padding: 2rem;
   backdrop-filter: blur(10px);
@@ -276,25 +409,15 @@ h1 {
   border-color: #667eea;
 }
 
-.calculate-btn {
+.ink-button {
   width: 100%;
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 10px;
   font-size: 1.2rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  margin-bottom: 1rem;
 }
 
-.calculate-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-}
-
-.calculate-btn:disabled {
+.ink-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -324,6 +447,65 @@ h1 {
   font-size: 1.1rem;
 }
 
+/* 视频播放遮罩层样式 */
+.video-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loading-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.loading-text {
+  position: absolute;
+  bottom: 20%;
+  text-align: center;
+  color: white;
+  z-index: 10000;
+}
+
+.loading-text h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+  animation: loading-bounce 1.4s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes loading-bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
 @media (max-width: 768px) {
   .number-inputs {
     grid-template-columns: 1fr;
@@ -336,6 +518,24 @@ h1 {
   
   h1 {
     font-size: 2rem;
+  }
+  
+  .wish-display {
+    padding: 1rem;
+  }
+  
+  .wish-display h3 {
+    font-size: 1.1rem;
+  }
+  
+  .wish-content {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
+
+  /* 移动端视频播放文字适配 */
+  .loading-text h2 {
+    font-size: 1.4rem;
   }
 }
 </style> 

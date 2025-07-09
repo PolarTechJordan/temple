@@ -20,8 +20,6 @@
       </button>
     </div>
 
-
-
     <div class="container">
       <h1>{{ $t('input.title') }}</h1>
       
@@ -42,7 +40,7 @@
             <button 
               @click="submitWish"
               :disabled="!wishText.trim()"
-              class="submit-btn"
+              class="ink-button"
             >
               {{ $t('算一算') }}
             </button>
@@ -56,7 +54,7 @@
       <div class="modal-content" @click.stop>
         <div class="modal-header">
           <h2>连接钱包</h2>
-          <button @click="closeModal" class="close-btn">×</button>
+          <button @click="closeModal" class="close-btn ink-button">×</button>
         </div>
         
         <div class="modal-body">
@@ -66,7 +64,7 @@
           <button 
             @click="connectWallet"
             :disabled="connecting"
-            class="wallet-option-btn"
+            class="wallet-option-btn ink-button"
             :class="{ 'connecting': connecting }"
           >
             <!-- NEW 标签 -->
@@ -112,10 +110,10 @@
         <h3>需要连接钱包</h3>
         <p>请先连接钱包才能提交许愿</p>
         <div class="alert-actions">
-          <button @click="openWalletFromAlert" class="alert-connect-btn">
+          <button @click="openWalletFromAlert" class="alert-connect-btn ink-button">
             连接钱包
           </button>
-          <button @click="closeAlert" class="alert-cancel-btn">
+          <button @click="closeAlert" class="alert-cancel-btn ink-button">
             取消
           </button>
         </div>
@@ -186,8 +184,7 @@ export default {
       connecting: false,
       error: null,
       showWalletModal: false,
-      showWalletAlert: false,
-
+      showWalletAlert: false
     }
   },
 
@@ -218,9 +215,7 @@ export default {
       }
     },
     
-
-    
-    submitWish() {
+    async submitWish() {
       if (!this.wishText.trim()) return
       
       // 检查钱包连接状态
@@ -232,6 +227,7 @@ export default {
       
       // 保存许愿内容到store
       this.appStore.saveUserWish(this.wishText)
+      
       // 直接跳转到算命页面
       this.navigateTo('/calculate')
     },
@@ -248,20 +244,18 @@ export default {
     openWalletFromAlert() {
       this.showWalletAlert = false
       this.showWalletModal = true
-    },
-
-
-  },
-
+    }
+  }
 }
 </script>
 
 <style scoped>
 .input-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #F9F4E2;
   padding: 2rem;
   position: relative;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .language-switcher {
@@ -297,8 +291,6 @@ export default {
     transform: scale(0.95);
   }
 }
-
-
 
 /* 右上角钱包区域 */
 .wallet-header {
@@ -338,8 +330,6 @@ export default {
   }
 }
 
-
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -347,9 +337,10 @@ export default {
 
 h1 {
   text-align: center;
-  color: white;
+  color: #2C2C2C;
   margin-bottom: 2rem;
   font-size: 2.5rem;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .main-content {
@@ -360,7 +351,8 @@ h1 {
 }
 
 .wish-section {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(44, 44, 44, 0.1);
   border-radius: 20px;
   padding: 2rem;
   backdrop-filter: blur(10px);
@@ -379,18 +371,21 @@ h1 {
 
 .wish-input {
   width: 100%;
-  border: 2px solid #ddd;
+  border: 2px solid rgba(44, 44, 44, 0.3);
   border-radius: 10px;
   padding: 1rem;
   font-size: 1.1rem;
   resize: vertical;
   min-height: 120px;
-  font-family: inherit;
+  font-family: 'KaiTi', 'STKaiti', serif;
+  color: #2C2C2C;
+  transition: all 0.3s ease;
 }
 
 .wish-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: rgba(44, 44, 44, 0.6);
+  box-shadow: 0 0 8px rgba(44, 44, 44, 0.2);
 }
 
 .char-counter {
@@ -401,25 +396,14 @@ h1 {
   font-size: 0.9rem;
 }
 
-.submit-btn {
+.ink-button {
   width: 100%;
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 10px;
   font-size: 1.2rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.submit-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-}
-
-.submit-btn:disabled {
+.ink-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -494,8 +478,6 @@ h1 {
   margin-bottom: 2rem;
   font-size: 1rem;
 }
-
-
 
 /* 钱包选项按钮样式 */
 .wallet-option-btn {

@@ -78,7 +78,7 @@
             <button 
               type="submit" 
               :disabled="submitting"
-              class="submit-btn"
+              class="ink-button"
             >
               {{ submitting ? '提交中...' : '提交反馈' }}
             </button>
@@ -251,8 +251,9 @@ export default {
 <style scoped>
 .contact-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #F9F4E2;
   padding: 2rem;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .container {

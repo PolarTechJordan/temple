@@ -41,7 +41,7 @@
         
         <!-- 进入按钮 -->
         <button 
-          class="enter-btn btn btn-primary btn-lg ripple"
+          class="enter-btn ink-button btn-lg ripple"
           :class="{ 'show': canEnter }"
           @click="enterSite"
           :disabled="!canEnter"

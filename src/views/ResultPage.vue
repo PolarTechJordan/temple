@@ -70,7 +70,7 @@
             <button 
               @click="processPayment"
               :disabled="!isValidSelection || processing"
-              class="payment-btn"
+              class="ink-button"
             >
               {{ processing ? '支付中...' : '立即支付' }}
             </button>
@@ -196,8 +196,9 @@ export default {
 <style scoped>
 .result-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #F9F4E2;
   padding: 2rem;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .container {

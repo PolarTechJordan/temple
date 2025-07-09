@@ -166,6 +166,7 @@ export default {
   padding: 2rem;
   display: flex;
   flex-direction: column;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .floating-sidebar.visible {
@@ -206,10 +207,10 @@ export default {
 }
 
 .nav-item.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: rgba(44, 44, 44, 0.8);
   color: white;
   transform: translateX(10px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 5px 15px rgba(44, 44, 44, 0.3);
 }
 
 .nav-icon {

@@ -18,7 +18,7 @@
           <p>{{ worshipDescription }}</p>
         </div>
         <div v-if="showContinueButton" class="continue-section">
-          <button @click="continueToMerit" class="continue-btn">
+          <button @click="continueToMerit" class="ink-button">
             查看功德
           </button>
         </div>
@@ -87,11 +87,12 @@ export default {
 <style scoped>
 .worship-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #F9F4E2;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  font-family: 'KaiTi', 'STKaiti', serif;
 }
 
 .container {
