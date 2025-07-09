@@ -1,21 +1,35 @@
 <template>
   <div class="calculate-page">
+    <!-- 装饰图片 -->
+    <!-- 左上角装饰 -->
+    <img src="@/assets/images/p2/p2_left_top.png" alt="" class="decoration-img decoration-left-top" />
+    
+    <!-- 左下角装饰 -->
+    <img src="@/assets/images/p2/p2_left_btm.png" alt="" class="decoration-img decoration-left-btm" />
+
+     <!-- 左中下角装饰 -->
+     <img src="@/assets/images/p2/p2_mid_btm.png" alt="" class="decoration-img decoration-mid-btm" />
+    
+    <!-- 右下角装饰 -->
+    <img src="@/assets/images/p2/p2_right_btm.png" alt="" class="decoration-img decoration-right-btm" />
+
     <div class="container">
-      <h1>{{ $t('calculate.title') }}</h1>
-      
-      <!-- 愿望显示区域 -->
-      <div class="wish-display-section">
-        <div class="wish-display">
-          <h3>您的愿望</h3>
-          <div class="wish-content">
-            {{ userWish || '暂无愿望内容' }}
+              <!-- 愿望显示区域 -->
+        <div class="wish-display-section">
+          <div class="wish-display">
+            <div class="wish-content">
+           我的愿望是： {{ userWish || '暂无愿望内容' }}
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div class="calculate-container">
+        
+        <!-- 中间分隔装饰 -->
+        <div class="section-divider">
+          <img src="@/assets/images/p2/p2_mid.png" alt="" class="decoration-img decoration-mid-divider" />
+        </div>
+        
+        <div class="calculate-container">
         <div class="description">
-          <h2>小六壬神算</h2>
           <p>请输入三个数字（1-99），神明将为您指点迷津</p>
         </div>
         
@@ -297,11 +311,74 @@ export default {
   justify-content: center;
   padding: 2rem;
   font-family: 'KaiTi', 'STKaiti', serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 装饰图片基础样式 */
+.decoration-img {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+}
+
+/* 左上角装饰 */
+.decoration-left-top {
+  top: 2%;
+  left: 1%;
+  width: clamp(60px, 10vw, 100px);
+  height: auto;
+}
+
+/* 左下角装饰 */
+.decoration-left-btm {
+  bottom: 1px;
+  left: 0px;
+  width: clamp(120px, 20vw, 250px);
+  height: auto;
+}
+
+/* 左中下角装饰 */
+.decoration-mid-btm {
+  bottom: 3%;
+  left: 15%;
+  transform: translateY(-50%) scale(2);
+  width: clamp(100px, 18vw, 200px);
+  height: auto;
+}
+
+/* 右下角装饰 */
+.decoration-right-btm {
+  bottom: 3%;
+  right: 20%;
+  transform: translateY(-50%) scale(2);
+  width: clamp(100px, 18vw, 200px);
+  height: auto;
+}
+
+/* 中间分隔装饰 */
+.section-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0;
+  position: relative;
+  z-index: 10;
+}
+
+.decoration-mid-divider {
+  transform: translateY(-50%) scale(1.5);
+  width: clamp(60px, 10vw, 100px);
+  height: auto;
+  opacity: 0.8;
 }
 
 .container {
   max-width: 600px;
   width: 100%;
+  position: relative;
+  z-index: 10;
 }
 
 h1 {
@@ -531,6 +608,31 @@ h1 {
   .wish-content {
     font-size: 0.9rem;
     padding: 0.8rem;
+  }
+
+  /* 移动端装饰图片调整 */
+  .decoration-left-top {
+    width: clamp(45px, 8vw, 70px);
+  }
+
+  .decoration-left-btm {
+    width: clamp(80px, 16vw, 150px);
+  }
+
+  .decoration-mid-btm {
+    width: clamp(70px, 14vw, 120px);
+  }
+
+  .decoration-right-btm {
+    width: clamp(70px, 14vw, 120px);
+  }
+
+  .decoration-mid-divider {
+    width: clamp(45px, 8vw, 75px);
+  }
+  
+  .section-divider {
+    margin: 1rem 0;
   }
 
   /* 移动端视频播放文字适配 */

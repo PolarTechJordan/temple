@@ -31,7 +31,7 @@
   "input": {
     "title": "许愿池",
     "subtitle": "诚心许愿，心想事成",
-    "placeholder": "请输入您的心愿...",
+    "placeholder": "请写下您的心愿...",
     "maxLength": "最多200字",
     "submitWish": "投入许愿池",
     "wishRequired": "请输入您的心愿"

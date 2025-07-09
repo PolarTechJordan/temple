@@ -3,12 +3,32 @@
     <!-- 悬浮导航栏组件 -->
     <FloatingSidebar activeNav="incense" />
 
-    <!-- 语言切换按钮（条件显示） -->
+    <!-- 装饰图片 -->
+    <!-- 左上角装饰 -->
+    <img src="@/assets/images/p1/p1_left_top.png" alt="" class="decoration-img decoration-left-top" />
+    
+    <!-- 左下角装饰 -->
+    <img src="@/assets/images/p1/p1_left_btm.png" alt="" class="decoration-img decoration-left-btm" />
+    
+    <!-- 右上角装饰 -->
+    <img src="@/assets/images/p1/p1_left_right.png" alt="" class="decoration-img decoration-right-top" />
+    
+    <!-- 中间左侧装饰 -->
+    <img src="@/assets/images/p1/p1_mid_left.png" alt="" class="decoration-img decoration-mid-left" />
+    
+    <!-- 中间装饰 -->
+    <img src="@/assets/images/p1/p1_mid.png" alt="" class="decoration-img decoration-mid" />
+    
+    <!-- 中间右侧装饰 -->
+    <img src="@/assets/images/p1/p1_mid_right.png" alt="" class="decoration-img decoration-mid-right" />
+
+    <!-- 语言切换按钮（条件显示） 
     <div v-if="!$route.query.showNav" class="language-switcher">
       <button @click="toggleLanguage" class="language-toggle-btn">
         {{ currentLocale === 'zh-CN' ? '中' : 'EN' }}
       </button>
     </div>
+  -->
 
     <!-- 右上角钱包连接按钮 -->
     <div v-if="!appStore.isWalletConnected" class="wallet-header">
@@ -16,12 +36,12 @@
         @click="showWalletModal = true"
         class="header-connect-btn"
       >
-        Connect
+        连接钱包
       </button>
     </div>
 
     <div class="container">
-      <h1>{{ $t('input.title') }}</h1>
+      <h1>{{ $t('&ZeroWidthSpace;') }}</h1>
       
       <div class="main-content">
         <!-- 许愿池 -->
@@ -42,7 +62,7 @@
               :disabled="!wishText.trim()"
               class="ink-button"
             >
-              {{ $t('算一算') }}
+              {{ $t('下一步') }}
             </button>
           </div>
         </div>
@@ -108,7 +128,7 @@
       <div class="alert-content" @click.stop>
         <div class="alert-icon">🔗</div>
         <h3>需要连接钱包</h3>
-        <p>请先连接钱包才能提交许愿</p>
+        <p>请先连接钱包才能提交愿望</p>
         <div class="alert-actions">
           <button @click="openWalletFromAlert" class="alert-connect-btn ink-button">
             连接钱包
@@ -256,6 +276,66 @@ export default {
   padding: 2rem;
   position: relative;
   font-family: 'KaiTi', 'STKaiti', serif;
+  overflow-x: hidden;
+}
+
+/* 装饰图片基础样式 */
+.decoration-img {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+}
+
+/* 左上角装饰 */
+.decoration-left-top {
+  top: 2%;
+  left: 1%;
+  width: clamp(60px, 10vw, 100px);
+  height: auto;
+}
+
+/* 左下角装饰 */
+.decoration-left-btm {
+  bottom: 1px;
+  left: 0px;
+  width: clamp(120px, 20vw, 250px);
+  height: auto;
+}
+
+/* 右上角装饰 */
+.decoration-right-top {
+  top: 30px;
+  right: 120px;
+  width: clamp(80px, 15vw, 150px);
+  height: auto;
+}
+
+/* 中间左侧装饰 */
+.decoration-mid-left {
+  top: 80%;
+  left: 30%;
+  transform: translateY(-50%) scale(2);
+  width: clamp(100px, 18vw, 200px);
+  height: auto;
+}
+
+/* 中间装饰 */
+.decoration-mid {
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%) scale(2);
+  width: clamp(60px, 12vw, 120px);
+  height: auto;
+}
+
+/* 中间右侧装饰 */
+.decoration-mid-right {
+  top: 80%;
+  right: 20%;
+  transform: translateY(-50%) scale(2);
+  width: clamp(100px, 18vw, 200px);
+  height: auto;
 }
 
 .language-switcher {
@@ -304,21 +384,20 @@ export default {
 }
 
 .header-connect-btn {
+  font-family: 'KaiTi', 'STKaiti', serif;
   height: 2rem;
-  border-radius: 9999px;
-  border: 1px solid #171717;
-  background: #171717;
-  padding: 0 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #667eea;
+  border: 2px solid #000000;
+  background: #F9F4E2;
+  padding: 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #000000;
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   
   &:hover {
-    border-color: #667eea;
-    background: #0a0a0a;
+    border-color: #ee1b1b;
     transform: translateY(-1px);
   }
 }
@@ -333,6 +412,8 @@ export default {
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 10;
 }
 
 h1 {
@@ -724,6 +805,32 @@ h1 {
   .wish-section {
     padding: 1.5rem;
     max-width: 100%;
+  }
+
+  /* 移动端装饰图片调整 */
+  .decoration-left-top {
+    width: clamp(60px, 12vw, 100px);
+  }
+
+  .decoration-left-btm {
+    width: clamp(80px, 16vw, 150px);
+  }
+
+  .decoration-right-top {
+    width: clamp(60px, 12vw, 100px);
+  }
+
+  .decoration-mid-left {
+    width: clamp(70px, 14vw, 120px);
+  }
+
+  .decoration-mid {
+    width: clamp(40px, 8vw, 80px);
+    top: 15%;
+  }
+
+  .decoration-mid-right {
+    width: clamp(70px, 14vw, 120px);
   }
   
   /* 移动端悬浮导航栏 */
